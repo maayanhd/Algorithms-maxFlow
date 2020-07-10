@@ -4,14 +4,13 @@ struct Pair
 {
 	public:
 
-		int m_data;
-		int m_key;
+		int m_Data;
+		int m_Key;
 
 		Pair(int data, int key)
 		{
-			m_data = data;
-			m_key = key;
+			m_Data = data;
+			m_Key = key;
 		}
-
 };
 

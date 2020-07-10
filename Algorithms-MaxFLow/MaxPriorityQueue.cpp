@@ -1,21 +1,21 @@
-#pragma once
 #include "MaxPriorityQueue.h"
 
 
-int MaxPriorityQueue::Left(int node)
+int MaxPriorityQueue::getLeftChild(int node)
 {
 	return (2 * node + 1);
 }
-int MaxPriorityQueue::Right(int node)
+int MaxPriorityQueue::getRightChild(int node)
 {
 	return(2 * node + 2);
 }
-int MaxPriorityQueue::Parent(int node)
+int MaxPriorityQueue::getParent(int node)
 {
 	return ((node - 1) / 2);
 }
 
-MaxPriorityQueue::~MaxPriorityQueue() {
+MaxPriorityQueue::~MaxPriorityQueue() 
+{
 }
 void MaxPriorityQueue::FixHeap(int currentNode)
 {
@@ -23,11 +23,11 @@ void MaxPriorityQueue::FixHeap(int currentNode)
 	int leftChild = getLeftChild(currentNode);
 	int rightChild = getRightChild(currentNode);
 
-	if ((leftChild < heapSize) && maxHeap[leftChild].m_data > maxHeap[currentNode].m_data)
+	if ((leftChild < m_HeapSize) && m_MaxHeap[leftChild].m_Data > m_MaxHeap[currentNode].m_Data)
 		max = leftChild;
 	else
 		max = currentNode;
-	if ((rightChild < heapSize) && maxHeap[rightChild].m_data > maxHeap[max].m_data)
+	if ((rightChild < m_HeapSize) && m_MaxHeap[rightChild].m_Data > m_MaxHeap[max].m_Data)
 		max = rightChild;
 
 	if (max != currentNode)
@@ -39,15 +39,15 @@ void MaxPriorityQueue::FixHeap(int currentNode)
 
 void MaxPriorityQueue::Swap(int node1, int node2)
 {
-	Pair temp = maxHeap[node1];
-	maxHeap[node1] = maxHeap[node2];
-	maxHeap[node2] = temp;
+	Pair temp = m_MaxHeap[node1];
+	m_MaxHeap[node1] = m_MaxHeap[node2];
+	m_MaxHeap[node2] = temp;
 }
 
-MaxPriorityQueue::MaxPriorityQueue(Pair* heapArr, int heapSize)
+MaxPriorityQueue::MaxPriorityQueue(Pair* heapArr, int m_HeapSize)
 {
-	this->heapSize = maxSize = heapSize;
-	maxHeap = heapArr;
+	this->m_HeapSize = m_MaxSize = m_HeapSize;
+	m_MaxHeap = heapArr;
 
 	
 
@@ -55,42 +55,44 @@ MaxPriorityQueue::MaxPriorityQueue(Pair* heapArr, int heapSize)
 
 void MaxPriorityQueue::BuildHeap()
 {
-	for (int i = (heapSize / 2) - 1; i >= 0; --i)
+	for (int i = (m_HeapSize / 2) - 1; i >= 0; --i)
 		FixHeap(i);
 }
 
 Pair MaxPriorityQueue::DeleteMax()
 {
-	if (heapSize < 1)
+	if (m_HeapSize < 1)
 	{
 		cout << "Error: EMPTY HEAP\n";
 		exit(1);
 	}
-	Person* min = minHeap[0];
-	minHeap[0] = minHeap[--HeapSize];
-	FixHeap(0, numComp);
-	return min;
+	
+	Pair max = m_MaxHeap[0];
+	m_MaxHeap[0] = m_MaxHeap[--m_HeapSize];
+	FixHeap(0);
+	return max;
 }
-Person* MaxPriorityQueue::min()
+Pair MaxPriorityQueue::Max()
 {
-	return minHeap[0];
+	return m_MaxHeap[0];
 }
-void MaxPriorityQueue::Insert(Person* person, int& numComp)
+void MaxPriorityQueue::Insert(Pair pairToInsert)
 {
 	int parent;
 
-	if (HeapSize == maxSize)
+	if (m_HeapSize == m_MaxSize)
 	{
 		cout << "Error: HEAP FULL\n ";
 		exit(1);
 	}
-	int i = HeapSize++;
+	int i = m_HeapSize++;
 
-	while (++numComp && (i > 0) && (minHeap[parent = Parent(i)]->getId() > person->getId())) // Looking for the right place to insert the person in the heap
+	while ((i > 0) && (m_MaxHeap[parent = getParent(i)].m_Data < pairToInsert.m_Data)) // Looking for the right place to insert the pair in the heap
 	{
 		// Saving unnecessary multiple calls to parent(i)
-		minHeap[i] = minHeap[parent];
+		m_MaxHeap[i] = m_MaxHeap[parent];
 		i = parent;
 	}
-	minHeap[i] = person;
+
+	m_MaxHeap[i] = pairToInsert;
 }

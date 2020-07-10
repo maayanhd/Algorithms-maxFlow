@@ -1,19 +1,23 @@
-#ifndef __MAXPRIORITY QUEUE_H
-#define __MAXPRIORITY QUEUE_H
+#ifndef __MAXPRIORITYQUEUE_H
+#define __MAXPRIORITYQUEUE_H
 
-#include <iostream>
 #include "Pair.h"
+#include <iostream>
+#include <stdio.h>
+
+using namespace std;
 
 class MaxPriorityQueue
 {
 private:
-	Pair* maxHeap;
-	int heapSize;	// Current Size
-	int maxSize;	// Maximal size of the heap
 
-	static int Left(int node);  // Returns the index of the left child or -1 if doesn't exist
-	static int Right(int node); // Returns the index of the right child or -1 if doesn't exist
-	static int Parent(int node); // Returns the parent of the node or -1 in case it is a root
+	Pair* m_MaxHeap;
+	int m_HeapSize;	// Current Size
+	int m_MaxSize;	// Maximal size of the heap
+
+	static int getLeftChild(int node);  // Returns the index of the left child or -1 if doesn't exist
+	static int getRightChild(int node); // Returns the index of the right child or -1 if doesn't exist
+	static int getParent(int node); // Returns the parent of the node or -1 in case it is a root
 	void FixHeap(int node);
 
 public:
@@ -22,7 +26,7 @@ public:
 	~MaxPriorityQueue();
 	void Swap(int node, int max);
 	Pair DeleteMax();
-	Pair Max(); // returns the person with the minimal key
+	Pair Max(); // returns the pair with the maximal key
 	void Insert(Pair pairToInsert);
 
 };
