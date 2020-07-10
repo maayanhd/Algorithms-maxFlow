@@ -152,6 +152,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Algorithms-MaxFLow.cpp" />
+    <ClCompile Include="DirectedGraph.cpp" />
+    <ClCompile Include="MaxPriorityQueue.cpp" />
+    <ClCompile Include="Pair.cpp" />
+    <ClCompile Include="Queue.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DirectedGraph.h" />
+    <ClInclude Include="MaxPriorityQueue.h" />
+    <ClInclude Include="Pair.h" />
+    <ClInclude Include="Queue.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
