@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __Pair_H
+#define __Pair_H
+
 
 struct Pair
 {
@@ -13,4 +15,6 @@ struct Pair
 			m_Key = key;
 		}
 };
+
+#endif
 

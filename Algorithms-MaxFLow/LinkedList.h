@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __LINKEDLIST_H
+#define __LINKEDLIST_H
 
 #include "Node.h"
 
@@ -34,4 +35,6 @@ class LinkedList
 	     inline int getListSize() { return m_ListSize; }
 
 };
+
+#endif
 

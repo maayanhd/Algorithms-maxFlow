@@ -21,10 +21,10 @@ void FlowNetworkGraph::MakeEmptyFlow()
 {
      m_CurrentFlowMatrix = new float*[m_NumOfVertexes + 1];
 
-     for (int i = 1; i <= m_NumOfVertexes; i++)
+     for (int i = 0; i <= m_NumOfVertexes; i++)
      {
           m_CurrentFlowMatrix[i] = new float[m_NumOfVertexes + 1];
-          for (int j = 1; j <= m_NumOfVertexes; j++)
+          for (int j = 0; j <= m_NumOfVertexes; j++)
           {
                m_CurrentFlowMatrix[i][j] = 0;
           }
@@ -39,42 +39,47 @@ void FlowNetworkGraph::FordFulkersonUsingBfs()
      WeightedDirectedGraph residualGraph((WeightedDirectedGraph)(*this));
      int numOfItr = 0;
      // Creating a parent array to hold the path from s to t
-     int* parentArr = new int[m_NumOfVertexes + 1];
+     int* parentArr = new int[m_NumOfVertexes + 1]();
+     bool* visitedArr = new bool[m_NumOfVertexes + 1]();
 
      // Checking whether there's a path from s to t in the residual graph, meaning theres augmenting path 
-     while (residualGraph.IsThereAPathUsingBFS(m_S, m_T, parentArr))
+     while (residualGraph.IsThereAPathUsingBFS(m_S, m_T, parentArr, visitedArr))
      {
-          float residualCapacityOfPath = GetResidualCapacityOfPath(parentArr);
+          float residualCapacityOfPath = GetResidualCapacityOfPath(residualGraph, parentArr);
 
           // Augmenting flow along the path from s to t - updating flow mat and residual graph
           UpdateResidualGraphAndFlow(parentArr, residualCapacityOfPath, residualGraph);
           numOfItr++;
      }
-
-     int* disjointSetsArr = Dfs(m_S);
-     delete[]parentArr;
+     
+     PrintFulkersonUsingBfsOutput(visitedArr, numOfItr);
+     delete[] visitedArr;
+     delete[] parentArr;
 }
 
-void FlowNetworkGraph::PrintFulkersonUsingBfsOutput(int* disjoinstSetsArr,int numOfItr)
+void FlowNetworkGraph::PrintFulkersonUsingBfsOutput(bool* visitedArr,int numOfItr)
 {
     cout << "BFS Method:" << endl;
     cout << "Max flow = " << m_MaxFlow << endl;
-    PrintMinCut(disjoinstSetsArr);
+    PrintMinCut(visitedArr);
     cout << "Number of iterations = " << numOfItr << endl;
 }
-void FlowNetworkGraph::PrintMinCut(int* disjoinstSetsArr)
+
+void FlowNetworkGraph::PrintMinCut(bool* visitedArr)
 {
-    PrintConnectedComponent(disjoinstSetsArr, "S", m_S);
-    PrintConnectedComponent(disjoinstSetsArr, "T", m_T);
+     cout << "Min cut: ";
+     PrintVertexesByBoolean(visitedArr, "S", true);
+     PrintVertexesByBoolean(visitedArr, "T", false);
+     cout << endl;
 }
 
-void FlowNetworkGraph::PrintConnectedComponent(int* disjointSetsArr, string repVertexNameStr, int repVertex)
+void FlowNetworkGraph::PrintVertexesByBoolean(bool* visitedArr, string vertexNameStr, bool areVertexesAccesibleFromS)
 {
-    cout << repVertexNameStr << " = ";
+    cout << vertexNameStr << " = ";
 
-    for (int i = 1; i < m_NumOfVertexes; i++)
+    for (int i = 1; i <= m_NumOfVertexes; i++)
     {
-        if (disjointSetsArr[i] == disjointSetsArr[m_S])
+        if (visitedArr[i] == areVertexesAccesibleFromS)
         {
             cout << i << ",";
         }
@@ -96,30 +101,32 @@ void FlowNetworkGraph::UpdateResidualGraphAndFlow(int* parentArrPath, float resi
           AddFlow(v, currentParent, -m_CurrentFlowMatrix[currentParent][v]);
 
           // Updating residual graph for each edge along the path
-          residualGraph.AddCapacity(currentParent, v, GetResidualFlow(currentParent, v));
+          residualGraph.UpdateCapacity(currentParent, v, GetResidualFlow(currentParent, v));
 
           // Updating the Anti-parallel edge capacity
-          residualGraph.AddCapacity(v, currentParent, GetResidualFlow(v, currentParent));
+          residualGraph.UpdateCapacity(v, currentParent, GetResidualFlow(v, currentParent));
      }
 
      // Updating max flow 
      m_MaxFlow += residualCapacityOfPath;
 }
 
-
-float FlowNetworkGraph::GetResidualCapacityOfPath(int* parentArrPath)
+float FlowNetworkGraph::GetResidualCapacityOfPath(const WeightedDirectedGraph& residualGraph , int* parentArrPath)
 {
      // Design by contract- at this point we know there's a path from s to t
      // Finding the minimal residual capacity of all edges in the path from s to t
-     float minEdgeResidualCapacity = 0;
+     int currentParent = parentArrPath[m_T];
+     float**  residualAdjMatrix = residualGraph.GetAdjacentMatrix();
 
-     for (int v = m_T; v != m_S; v = parentArrPath[v])
+     float minEdgeResidualCapacity = residualAdjMatrix[currentParent][m_T];
+
+     for (int v = currentParent; v != m_S; v = parentArrPath[v])
      {
-          int currentParent = parentArrPath[v];
+          currentParent = parentArrPath[v];
           // Updating minimum if needed
-          if (m_AdjacentMatrix[currentParent][v] < minEdgeResidualCapacity)
+          if (residualAdjMatrix[currentParent][v] < minEdgeResidualCapacity)
           {
-               minEdgeResidualCapacity = m_AdjacentMatrix[currentParent][v];
+               minEdgeResidualCapacity = residualAdjMatrix[currentParent][v];
           }
      }
 

@@ -1,7 +1,9 @@
-#pragma once
+#ifndef __NODE_H
+#define __NODE_H
 
 #include <iostream>
 #include <stdio.h>
+#include <string>
 
 using namespace std;
 
@@ -19,3 +21,4 @@ class Node
 	     Node* DeleteAfter();
 };
 
+#endif

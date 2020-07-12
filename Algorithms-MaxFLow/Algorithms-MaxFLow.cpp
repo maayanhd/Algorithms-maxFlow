@@ -26,7 +26,7 @@ FlowNetworkGraph* InitializeGraphFromFile(ifstream& graphData)
 			graphData >> c;
 			resGraph->AddEdge(u, v, c);
 		}
-	}
+     }
 	else
 	{
 		cout << "Error: File not found" << endl;
@@ -36,9 +36,9 @@ FlowNetworkGraph* InitializeGraphFromFile(ifstream& graphData)
 	return resGraph;
 }
 
-int Main(int argc, char* argv[])
+int main(int argc, char* argv[])
 {
-	if (argc > 2)
+     if (argc > 2)
 	{
 		cout << "Error: The program must receive 2 arguments only" << endl;
 		exit(1);
@@ -46,13 +46,16 @@ int Main(int argc, char* argv[])
 	else
 	{
 		string fileName(argv[1]);
-		ifstream inFile(fileName);
-		FlowNetworkGraph* currentGraph= InitializeGraphFromFile(inFile);
+          //string fileName("input1.txt");
+		ifstream inFile(fileName, ios::in);
+
+          FlowNetworkGraph* currentGraph= InitializeGraphFromFile(inFile);
 		currentGraph->FordFulkersonUsingBfs();
-
-
+          
 		delete currentGraph;
 	}
+     
+     return 0;
 }
 
 
