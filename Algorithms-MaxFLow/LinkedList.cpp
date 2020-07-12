@@ -17,7 +17,7 @@ LinkedList::~LinkedList() {
 
 	m_ListSize = 0;
 }
-Node* LinkedList::Find(int dataToFind)
+Node* LinkedList::find(int dataToFind)
 {
 	Node* currNode = m_Head;
 	while (currNode != nullptr)
@@ -52,17 +52,9 @@ bool LinkedList::IsEmpty()
 {
 	return m_ListSize == 0;
 }
-int LinkedList::First()
-{
-	return m_Head->m_Data;
-}
-int LinkedList::Last()
-{
-	return m_Tail->m_Data;
-}
 void LinkedList::InsertAfter(int nodeToFind,int dataToInsert)
 {
-	Node* foundNode = Find(nodeToFind);
+	Node* foundNode = find(nodeToFind);
 	if (foundNode == nullptr)
 	{
 		cout << "There is no node with specified data" << endl;

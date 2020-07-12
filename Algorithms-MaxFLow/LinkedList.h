@@ -4,26 +4,34 @@
 
 class LinkedList
 {
-private:
+     private:
 
-	Node* m_Head;
-	Node* m_Tail;
-	int m_ListSize;
+	     Node* m_Head;
+	     Node* m_Tail;
+	     int m_ListSize;
 
-	Node* Find(int dataToFind);
+	     Node* find(int dataToFind);
 
-public:
+     public:
 
-	LinkedList();
-	~LinkedList();
-	void MakeEmpty();
-	bool IsEmpty();
-	int First();
-	int Last();
-	void InsertToEnd(int dataToInsert);
-	void InsertAfter(int nodeToFind, int dataToInsert);
-	void DeleteNode(int dataToDelete);
-	inline int getListSize() { return m_ListSize; }
+	     LinkedList();
+	     ~LinkedList();
+	     void MakeEmpty();
+	     bool IsEmpty();
+          const Node* GetFirst() const
+          {
+               return m_Head;
+          };
+
+          const Node* GetLast() const
+          {
+               return m_Tail;
+          };
+
+	     void InsertToEnd(int dataToInsert);
+	     void InsertAfter(int nodeToFind, int dataToInsert);
+	     void DeleteNode(int dataToDelete);
+	     inline int getListSize() { return m_ListSize; }
 
 };
 

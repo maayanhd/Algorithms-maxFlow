@@ -7,16 +7,15 @@ using namespace std;
 
 class Node
 {
-public:
+     public:
 
-	int m_Data;
-	Node* m_Next;
+	     int m_Data;
+	     Node* m_Next;
 
-	Node(int data, Node* next = nullptr);
-	Node();
-	~Node();
-	void InsertAfter(Node* nodeToInsert);
-	Node* DeleteAfter();
-
+	     Node(int data, Node* next = nullptr);
+	     Node();
+	     ~Node();
+	     void InsertAfter(Node* nodeToInsert);
+	     Node* DeleteAfter();
 };
 
