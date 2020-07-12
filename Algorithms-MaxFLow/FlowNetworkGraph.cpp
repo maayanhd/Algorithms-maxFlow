@@ -37,7 +37,7 @@ void FlowNetworkGraph::FordFulkersonUsingBfs()
 {
      // Creating Residual Graph 
      WeightedDirectedGraph residualGraph((WeightedDirectedGraph)(*this));
-
+     int numOfItr = 0;
      // Creating a parent array to hold the path from s to t
      int* parentArr = new int[m_NumOfVertexes + 1];
 
@@ -48,9 +48,39 @@ void FlowNetworkGraph::FordFulkersonUsingBfs()
 
           // Augmenting flow along the path from s to t - updating flow mat and residual graph
           UpdateResidualGraphAndFlow(parentArr, residualCapacityOfPath, residualGraph);
+          numOfItr++;
      }
 
+     int* disjointSetsArr = Dfs(m_S);
      delete[]parentArr;
+}
+
+void FlowNetworkGraph::PrintFulkersonUsingBfsOutput(int* disjoinstSetsArr,int numOfItr)
+{
+    cout << "BFS Method:" << endl;
+    cout << "Max flow = " << m_MaxFlow << endl;
+    PrintMinCut(disjoinstSetsArr);
+    cout << "Number of iterations = " << numOfItr << endl;
+}
+void FlowNetworkGraph::PrintMinCut(int* disjoinstSetsArr)
+{
+    PrintConnectedComponent(disjoinstSetsArr, "S", m_S);
+    PrintConnectedComponent(disjoinstSetsArr, "T", m_T);
+}
+
+void FlowNetworkGraph::PrintConnectedComponent(int* disjointSetsArr, string repVertexNameStr, int repVertex)
+{
+    cout << repVertexNameStr << " = ";
+
+    for (int i = 1; i < m_NumOfVertexes; i++)
+    {
+        if (disjointSetsArr[i] == disjointSetsArr[m_S])
+        {
+            cout << i << ",";
+        }
+    }
+
+    cout << "\b.";
 }
 
 void FlowNetworkGraph::UpdateResidualGraphAndFlow(int* parentArrPath, float residualCapacityOfPath, WeightedDirectedGraph& residualGraph)

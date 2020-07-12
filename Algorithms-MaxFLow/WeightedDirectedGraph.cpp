@@ -91,7 +91,7 @@ bool WeightedDirectedGraph::IsThereAPathUsingBFS(int s, int t, int* parentArr)
                int currentNeigbor = currentNodeVertex->m_Data;
 
                // Under the assumption the object called the method is residual graph
-               if (visitedArr[currentNeigbor] = false && this->m_AdjacentMatrix[u][currentNeigbor] > 0)
+               if (visitedArr[currentNeigbor] == false && this->m_AdjacentMatrix[u][currentNeigbor] > 0)
                {
                     parentArr[currentNeigbor] = u;
                     visitedArr[currentNeigbor] = true;
@@ -108,6 +108,53 @@ bool WeightedDirectedGraph::IsThereAPathUsingBFS(int s, int t, int* parentArr)
      // it means there's a path in the residual graph from s to t
      return visitedArr[t] == true;
 
+}
+
+int* WeightedDirectedGraph::Dfs(int s)
+{
+    int* disjointSetsArr = new int[m_NumOfVertexes + 1];
+    vertexColor* colorsArr = InitializeColorsArr();
+
+    for (int i = 1; i <= m_NumOfVertexes; i++)
+    {
+        if (colorsArr[i] == WHITE)
+        {
+            disjointSetsArr[i] = i;
+            Visit(i,colorsArr, disjointSetsArr);
+        }
+    }
+    delete[] colorsArr;
+
+    return disjointSetsArr;
+}
+
+WeightedDirectedGraph::vertexColor* WeightedDirectedGraph::InitializeColorsArr()
+{
+    vertexColor* colorsArr = new vertexColor[m_NumOfVertexes + 1];
+    for (int i = 1; i <= m_NumOfVertexes; i++)
+    {
+        colorsArr[i] = WHITE;
+    }
+
+    return colorsArr;
+}
+void WeightedDirectedGraph::Visit(int v, vertexColor* colorsArr, int* disjointSetsArr)
+{
+    colorsArr[v] = GRAY;
+    LinkedList adjList = GetAdjList(v);
+    const Node* currNode = adjList.GetFirst();
+    while (currNode != nullptr)
+    {
+        int currentVertex = currNode->m_Data;
+        disjointSetsArr[currentVertex] = disjointSetsArr[v];
+
+        if (colorsArr[currentVertex] == WHITE)
+        {
+            Visit(currentVertex, colorsArr, disjointSetsArr);
+        }
+    }
+
+    colorsArr[v] = BLACK;
 }
 
 bool* WeightedDirectedGraph::InitializeVisitedArr()

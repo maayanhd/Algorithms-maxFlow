@@ -1,6 +1,7 @@
 #pragma once
 
 #include "WeightedDirectedGraph.h"
+
 class FlowNetworkGraph : public WeightedDirectedGraph
 {
 
@@ -11,7 +12,7 @@ class FlowNetworkGraph : public WeightedDirectedGraph
 
           float GetResidualCapacityOfPath(int* parentArrPath);
           void UpdateResidualGraphAndFlow(int* parentArrPath, float residualCapacityOfPath, WeightedDirectedGraph& residualGraph);
-                         
+		  void PrintFulkersonUsingBfsOutput(int* disjoinstSetsArr,int numOfItr);
      public:
 
 	     FlowNetworkGraph(int n,int s,int t);
@@ -20,6 +21,8 @@ class FlowNetworkGraph : public WeightedDirectedGraph
 	     void AddFlow(int u, int v, float flowToAdd);
 	     bool IsFlowToAddIsValid(int u, int v, float flowToAdd);
 	     float GetResidualFlow(int u, int v);
-          void FordFulkersonUsingBfs(); // Updating MaxFlow 
+         void FordFulkersonUsingBfs(); // Updating MaxFlow
+		 void PrintConnectedComponent(int* disjointSetsArr, string repVertexNameStr, int repVertex);
+		 void PrintMinCut(int* disjoinstSetsArr);
 };
 

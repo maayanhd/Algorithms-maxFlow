@@ -1,38 +1,39 @@
 // Algorithms-MaxFLow.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include "WeightedDirectedGraph.h"
+#include "FlowNetworkGraph.h"
 #include <fstream>
 
-WeightedDirectedGraph* InitializeGraphFromFile(ifstream &graphData, int& s, int& t)
+FlowNetworkGraph* InitializeGraphFromFile(ifstream& graphData)
 {
-     WeightedDirectedGraph* resGraph = nullptr;
+	FlowNetworkGraph* resGraph = nullptr;
 
-     if (graphData.is_open())
-     {
-          int n, m, u, v;
-          float c;
-          graphData >> n;
-          graphData >> m;
-          graphData >> s;
-          graphData >> t;
+	if (graphData.is_open())
+	{
+		int n, m, u, v, s, t;
+		float c;
+		graphData >> n;
+		graphData >> m;
+		graphData >> s;
+		graphData >> t;
 
-          resGraph = new WeightedDirectedGraph(n);
-          for (int i = 0; i < m; i++)
-          {
-               graphData >> u;
-               graphData >> v;
-               graphData >> c;
-               resGraph->AddEdge(u, v, c);
-          }
-     }
-     else
-     {
-          cout << "Error: File not found" << endl;
-          exit(1);
-     }
+		resGraph = new FlowNetworkGraph(n, s, t);
 
-     return resGraph;
+		for (int i = 0; i < m; i++)
+		{
+			graphData >> u;
+			graphData >> v;
+			graphData >> c;
+			resGraph->AddEdge(u, v, c);
+		}
+	}
+	else
+	{
+		cout << "Error: File not found" << endl;
+		exit(1);
+	}
+
+	return resGraph;
 }
 
 int Main(int argc, char* argv[])
@@ -41,16 +42,15 @@ int Main(int argc, char* argv[])
 	{
 		cout << "Error: The program must receive 2 arguments only" << endl;
 		exit(1);
-     }
+	}
 	else
 	{
-		int s, t;
 		string fileName(argv[1]);
 		ifstream inFile(fileName);
-		WeightedDirectedGraph* currentGraph = InitializeGraphFromFile(inFile,s,t);
+		FlowNetworkGraph* currentGraph= InitializeGraphFromFile(inFile);
+		currentGraph->FordFulkersonUsingBfs();
 
-          
-                                        
+
 		delete currentGraph;
 	}
 }
