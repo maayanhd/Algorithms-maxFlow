@@ -43,8 +43,8 @@ int main(int argc, char* argv[])
 		cout << "Error: The program must receive 2 arguments only" << endl;
 		exit(1);
 	}
-	else
-	{
+     else
+     {
 		string fileName(argv[1]);
           //string fileName("input1.txt");
 		ifstream inFile(fileName, ios::in);
