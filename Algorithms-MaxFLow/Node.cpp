@@ -14,11 +14,13 @@ Node::Node()
 Node::~Node()
 {
 }
+
 void Node::InsertAfter(Node* nodeToInsert)
 {
 	nodeToInsert->m_Next = m_Next;
 	m_Next = nodeToInsert;
 }
+
 Node* Node::DeleteAfter()
 {
 	Node* temp = m_Next;

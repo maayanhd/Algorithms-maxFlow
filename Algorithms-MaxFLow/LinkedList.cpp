@@ -4,6 +4,7 @@ LinkedList::LinkedList()
 {
 	MakeEmpty();
 }
+
 LinkedList::~LinkedList() {
 	Node* currNode = m_Head;
 	Node* tempNode = nullptr;
@@ -17,6 +18,7 @@ LinkedList::~LinkedList() {
 
 	m_ListSize = 0;
 }
+
 Node* LinkedList::find(int dataToFind)
 {
 	Node* currNode = m_Head;
@@ -30,6 +32,7 @@ Node* LinkedList::find(int dataToFind)
 
 	return nullptr;
 }
+
 void LinkedList::InsertToEnd(int dataToInsert)
 {
 	Node* newNode = new Node(dataToInsert);
@@ -43,15 +46,18 @@ void LinkedList::InsertToEnd(int dataToInsert)
 		m_Tail = newNode;
 	}
 }
+
 void LinkedList::MakeEmpty()
 {
 	m_Head = m_Tail = nullptr;
 	m_ListSize = 0;
 }
+
 bool LinkedList::IsEmpty()
 {
 	return m_ListSize == 0;
 }
+
 void LinkedList::InsertAfter(int nodeToFind,int dataToInsert)
 {
 	Node* foundNode = find(nodeToFind);
@@ -65,6 +71,7 @@ void LinkedList::InsertAfter(int nodeToFind,int dataToInsert)
 		m_ListSize++;
 	}
 }
+
 void LinkedList::DeleteNode(int dataToDelete)
 {
 	Node* prevNode = nullptr;

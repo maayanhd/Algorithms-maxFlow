@@ -13,6 +13,7 @@ Queue::Queue()
 	m_Front = new Node();
 	m_Rear = m_Front;
 }
+
 bool Queue::IsEmpty() 
 {
 	return (m_Front == m_Rear);
@@ -22,6 +23,7 @@ Queue::~Queue()
 {
 	MakeEmpty();
 }
+
 int Queue:: Dequeue() 
 {
 	NotifyEmptyQueueError();
@@ -33,6 +35,7 @@ int Queue:: Dequeue()
 	delete temp;
 	return data;
 }
+
 void Queue::Enqueue(int dataToInsert) 
 {
 	Node* newNode = new Node(dataToInsert);

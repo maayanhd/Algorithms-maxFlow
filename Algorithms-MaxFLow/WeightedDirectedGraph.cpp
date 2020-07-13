@@ -42,7 +42,6 @@ void WeightedDirectedGraph::UpdateCapacity(int u, int v, int capacityToAdd)
      m_AdjacentMatrix[u][v] = capacityToAdd;
 }
 
-
 WeightedDirectedGraph::~WeightedDirectedGraph()
 {
      for (int i = 0; i <= m_NumOfVertexes; i++)

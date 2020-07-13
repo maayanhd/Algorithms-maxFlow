@@ -1,14 +1,15 @@
 #include "MaxPriorityQueue.h"
 
-
 int MaxPriorityQueue::getLeftChild(int node)
 {
 	return (2 * node + 1);
 }
+
 int MaxPriorityQueue::getRightChild(int node)
 {
 	return(2 * node + 2);
 }
+
 int MaxPriorityQueue::getParent(int node)
 {
 	return ((node - 1) / 2);
@@ -17,6 +18,7 @@ int MaxPriorityQueue::getParent(int node)
 MaxPriorityQueue::~MaxPriorityQueue() 
 {
 }
+
 void MaxPriorityQueue::FixHeap(int currentNode)
 {
 	int max;
@@ -48,9 +50,8 @@ MaxPriorityQueue::MaxPriorityQueue(Pair* heapArr, int m_HeapSize)
 {
 	this->m_HeapSize = m_MaxSize = m_HeapSize;
 	m_MaxHeap = heapArr;
-
-	
-
+     /// Optional
+     BuildHeap();
 }
 
 void MaxPriorityQueue::BuildHeap()
@@ -72,10 +73,12 @@ Pair MaxPriorityQueue::DeleteMax()
 	FixHeap(0);
 	return max;
 }
+
 Pair MaxPriorityQueue::Max()
 {
 	return m_MaxHeap[0];
 }
+
 void MaxPriorityQueue::Insert(Pair pairToInsert)
 {
 	int parent;

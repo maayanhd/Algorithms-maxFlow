@@ -20,21 +20,22 @@ class LinkedList
 	     ~LinkedList();
 	     void MakeEmpty();
 	     bool IsEmpty();
-          const Node* GetFirst() const
+
+          void InsertToEnd(int dataToInsert);
+          void InsertAfter(int nodeToFind, int dataToInsert);
+          void DeleteNode(int dataToDelete);
+
+          inline const Node* GetFirst() const
           {
                return m_Head;
           };
 
-          const Node* GetLast() const
+          inline const Node* GetLast() const
           {
                return m_Tail;
           };
 
-	     void InsertToEnd(int dataToInsert);
-	     void InsertAfter(int nodeToFind, int dataToInsert);
-	     void DeleteNode(int dataToDelete);
-	     inline int getListSize() { return m_ListSize; }
-
+          inline int getListSize() { return m_ListSize; }
 };
 
 #endif

@@ -23,6 +23,7 @@ FlowNetworkGraph* FileInputHandling::InitializeGraphFromFile(ifstream& graphData
                ReadCharFromStream(graphData, c);
                resGraph->AddEdge(u, v, c);
           }
+          
           // Making sure all characters has been read
           char lastCharacterToClean;
           graphData >> lastCharacterToClean;

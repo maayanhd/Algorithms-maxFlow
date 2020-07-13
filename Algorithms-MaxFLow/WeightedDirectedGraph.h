@@ -30,11 +30,11 @@ class WeightedDirectedGraph
           void InitializeVisitedArr(bool* visitedArr);
           void UpdateCapacity(int u, int v, int capacityToAdd);
           int GetCapacity(int u, int v) const;
-          int GetNumOfVertexes() const
+          inline int GetNumOfVertexes() const
           {
                return m_NumOfVertexes;
           }
-          int** GetAdjacentMatrix()const
+          inline int** GetAdjacentMatrix()const
           {
                return m_AdjacentMatrix;
           }

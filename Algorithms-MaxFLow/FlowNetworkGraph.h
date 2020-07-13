@@ -14,16 +14,14 @@ class FlowNetworkGraph : public WeightedDirectedGraph
           int GetResidualCapacityOfPath(const WeightedDirectedGraph& residualGraph, int* parentArrPath);
           void UpdateResidualGraphAndFlow(int* parentArrPath, int residualCapacityOfPath, WeightedDirectedGraph& residualGraph);
           void PrintFulkersonUsingBfsOutput(bool* visitedArr, int numOfItr);
-
-
+          
      public:
-
           FlowNetworkGraph(int n,int s,int t);
 	     virtual ~FlowNetworkGraph();
 	     void MakeEmptyFlow();
 	     void AddFlow(int u, int v, int flowToAdd);
 	     bool IsFlowToAddIsValid(int u, int v, int flowToAdd);
-	     int GetResidualFlow(int u, int v);
+	     inline int GetResidualFlow(int u, int v);
           void FordFulkersonUsingBfs(); // Updating MaxFlow
           void PrintVertexesByBoolean(bool* visitedArr, string vertexNameStr, bool areVertexesAccesibleFromS);
           void PrintMinCut(bool* visitedArr);
