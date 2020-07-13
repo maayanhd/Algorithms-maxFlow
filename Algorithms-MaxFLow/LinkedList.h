@@ -11,6 +11,7 @@ class LinkedList
 	     Node* m_Tail;
 	     int m_ListSize;
 
+          // Service function
 	     Node* find(int dataToFind);
 
      public:

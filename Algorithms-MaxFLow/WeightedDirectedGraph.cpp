@@ -1,4 +1,5 @@
 #include "WeightedDirectedGraph.h"
+#include "FileInputHandling.h"
 #include "Queue.h"
 
 WeightedDirectedGraph::WeightedDirectedGraph(int n) : m_NumOfVertexes(n)
@@ -19,7 +20,7 @@ WeightedDirectedGraph::WeightedDirectedGraph(const WeightedDirectedGraph & other
      }
 }
 
-float WeightedDirectedGraph::GetCapacity(int u, int v) const
+int WeightedDirectedGraph::GetCapacity(int u, int v) const
 {
      if (!IsVertexInRange(u) || !IsVertexInRange(v))
      {
@@ -30,7 +31,7 @@ float WeightedDirectedGraph::GetCapacity(int u, int v) const
      return m_AdjacentMatrix[u][v];     
 }
 
-void WeightedDirectedGraph::UpdateCapacity(int u, int v, float capacityToAdd)
+void WeightedDirectedGraph::UpdateCapacity(int u, int v, int capacityToAdd)
 {
      if (!IsVertexInRange(u) || !IsVertexInRange(v) || capacityToAdd < 0)
      {
@@ -55,11 +56,11 @@ WeightedDirectedGraph::~WeightedDirectedGraph()
 void WeightedDirectedGraph::MakeEmptyGraph(int n)
 {
      // Allocation matrix of (n+1)*(n+1) for convenience, does not affects complexity, still n^2 //
-     m_AdjacentMatrix = new float*[n + 1];
+     m_AdjacentMatrix = new int*[n + 1];
 
      for (int i = 0; i <= n; i++)
      {
-          m_AdjacentMatrix[i] = new float[n + 1];
+          m_AdjacentMatrix[i] = new int[n + 1];
           for (int j = 0; j <= n; j++)
           {
                m_AdjacentMatrix[i][j] = 0;
@@ -73,8 +74,7 @@ bool WeightedDirectedGraph::IsAdjacent(int u, int v)
 {
      if (!IsVertexInRange(u) || !IsVertexInRange(v))
      {
-          cout << "invalid input" << endl;
-          exit(1);
+          FileInputHandling::NotifyInputError();
      }
 
      return m_AdjacentMatrix[u][v] != 0;
@@ -83,6 +83,16 @@ bool WeightedDirectedGraph::IsAdjacent(int u, int v)
 bool WeightedDirectedGraph::IsVertexInRange(int v) const 
 {
      return v <= m_NumOfVertexes && v > 0;
+}
+
+bool WeightedDirectedGraph::isCapacityValid(int capacity)
+{
+     return capacity >= 0;
+}
+
+bool WeightedDirectedGraph::isEdgeALoop(int u, int v)
+{
+     return u == v;
 }
 
 bool WeightedDirectedGraph::IsThereAPathUsingBFS(int s, int t, int* parentArr, bool* visitedArr)
@@ -151,12 +161,12 @@ LinkedList* WeightedDirectedGraph::GetAdjList(int u)
      return adjList;
 }
 
-void WeightedDirectedGraph::AddEdge(int u, int v, float c)
+void WeightedDirectedGraph::AddEdge(int u, int v, int c)
 {
-     if (IsAdjacent(u, v) || c < 0 || !IsVertexInRange(u) || !IsVertexInRange(v))
+     // Making sure there are no self loops, invalid capacities, parallel edges and vertexes not in range
+     if (IsAdjacent(u, v) || !isCapacityValid(c) || isEdgeALoop(u,v)) 
      {
-          cout << "invalid input" << endl;
-          exit(1);
+          FileInputHandling::NotifyInputError();
      }
 
      m_NumOfEdges++;

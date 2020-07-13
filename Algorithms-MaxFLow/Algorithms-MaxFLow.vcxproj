@@ -152,6 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Algorithms-MaxFLow.cpp" />
+    <ClCompile Include="FileInputHandling.cpp" />
     <ClCompile Include="FlowNetworkGraph.cpp" />
     <ClCompile Include="LinkedList.cpp" />
     <ClCompile Include="WeightedDirectedGraph.cpp" />
@@ -161,6 +162,7 @@
     <ClCompile Include="Node.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FileInputHandling.h" />
     <ClInclude Include="FlowNetworkGraph.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="WeightedDirectedGraph.h" />

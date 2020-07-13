@@ -1,40 +1,7 @@
 // Algorithms-MaxFLow.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include "FlowNetworkGraph.h"
-#include <fstream>
-
-FlowNetworkGraph* InitializeGraphFromFile(ifstream& graphData)
-{
-	FlowNetworkGraph* resGraph = nullptr;
-
-	if (graphData.is_open())
-	{
-		int n, m, u, v, s, t;
-		float c;
-		graphData >> n;
-		graphData >> m;
-		graphData >> s;
-		graphData >> t;
-
-		resGraph = new FlowNetworkGraph(n, s, t);
-
-		for (int i = 0; i < m; i++)
-		{
-			graphData >> u;
-			graphData >> v;
-			graphData >> c;
-			resGraph->AddEdge(u, v, c);
-		}
-     }
-	else
-	{
-		cout << "Error: File not found" << endl;
-		exit(1);
-	}
-
-	return resGraph;
-}
+#include "FileInputHandling.h"
 
 int main(int argc, char* argv[])
 {
@@ -45,11 +12,11 @@ int main(int argc, char* argv[])
 	}
      else
      {
-		string fileName(argv[1]);
+          string fileName(argv[1]);
           //string fileName("input1.txt");
 		ifstream inFile(fileName, ios::in);
 
-          FlowNetworkGraph* currentGraph= InitializeGraphFromFile(inFile);
+          FlowNetworkGraph* currentGraph= FileInputHandling::InitializeGraphFromFile(inFile);
 		currentGraph->FordFulkersonUsingBfs();
           
 		delete currentGraph;

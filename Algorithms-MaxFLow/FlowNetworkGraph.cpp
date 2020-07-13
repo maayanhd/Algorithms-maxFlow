@@ -19,11 +19,11 @@ FlowNetworkGraph:: ~FlowNetworkGraph()
 
 void FlowNetworkGraph::MakeEmptyFlow()
 {
-     m_CurrentFlowMatrix = new float*[m_NumOfVertexes + 1];
+     m_CurrentFlowMatrix = new int*[m_NumOfVertexes + 1];
 
      for (int i = 0; i <= m_NumOfVertexes; i++)
      {
-          m_CurrentFlowMatrix[i] = new float[m_NumOfVertexes + 1];
+          m_CurrentFlowMatrix[i] = new int[m_NumOfVertexes + 1];
           for (int j = 0; j <= m_NumOfVertexes; j++)
           {
                m_CurrentFlowMatrix[i][j] = 0;
@@ -45,7 +45,7 @@ void FlowNetworkGraph::FordFulkersonUsingBfs()
      // Checking whether there's a path from s to t in the residual graph, meaning theres augmenting path 
      while (residualGraph.IsThereAPathUsingBFS(m_S, m_T, parentArr, visitedArr))
      {
-          float residualCapacityOfPath = GetResidualCapacityOfPath(residualGraph, parentArr);
+          int residualCapacityOfPath = GetResidualCapacityOfPath(residualGraph, parentArr);
 
           // Augmenting flow along the path from s to t - updating flow mat and residual graph
           UpdateResidualGraphAndFlow(parentArr, residualCapacityOfPath, residualGraph);
@@ -88,7 +88,7 @@ void FlowNetworkGraph::PrintVertexesByBoolean(bool* visitedArr, string vertexNam
     cout << "\b.";
 }
 
-void FlowNetworkGraph::UpdateResidualGraphAndFlow(int* parentArrPath, float residualCapacityOfPath, WeightedDirectedGraph& residualGraph)
+void FlowNetworkGraph::UpdateResidualGraphAndFlow(int* parentArrPath, int residualCapacityOfPath, WeightedDirectedGraph& residualGraph)
 {
 
      for (int v = m_T; v != m_S; v = parentArrPath[v])
@@ -111,14 +111,14 @@ void FlowNetworkGraph::UpdateResidualGraphAndFlow(int* parentArrPath, float resi
      m_MaxFlow += residualCapacityOfPath;
 }
 
-float FlowNetworkGraph::GetResidualCapacityOfPath(const WeightedDirectedGraph& residualGraph , int* parentArrPath)
+int FlowNetworkGraph::GetResidualCapacityOfPath(const WeightedDirectedGraph& residualGraph , int* parentArrPath)
 {
      // Design by contract- at this point we know there's a path from s to t
      // Finding the minimal residual capacity of all edges in the path from s to t
      int currentParent = parentArrPath[m_T];
-     float**  residualAdjMatrix = residualGraph.GetAdjacentMatrix();
+     int**  residualAdjMatrix = residualGraph.GetAdjacentMatrix();
 
-     float minEdgeResidualCapacity = residualAdjMatrix[currentParent][m_T];
+     int minEdgeResidualCapacity = residualAdjMatrix[currentParent][m_T];
 
      for (int v = currentParent; v != m_S; v = parentArrPath[v])
      {
@@ -133,17 +133,17 @@ float FlowNetworkGraph::GetResidualCapacityOfPath(const WeightedDirectedGraph& r
      return minEdgeResidualCapacity;
 }
 
-bool FlowNetworkGraph::IsFlowToAddIsValid(int u, int v, float flowToAdd)
+bool FlowNetworkGraph::IsFlowToAddIsValid(int u, int v, int flowToAdd)
 {
      return flowToAdd <= GetResidualFlow(u, v);
 }
 
-float FlowNetworkGraph::GetResidualFlow(int u, int v)
+int FlowNetworkGraph::GetResidualFlow(int u, int v)
 {
      return m_AdjacentMatrix[u][v] - m_CurrentFlowMatrix[u][v];
 }
 
-void FlowNetworkGraph::AddFlow(int u, int v, float flowToAdd)
+void FlowNetworkGraph::AddFlow(int u, int v, int flowToAdd)
 {
      if (!IsVertexInRange(u) || !IsVertexInRange(v) || !IsFlowToAddIsValid(u, v, flowToAdd))
      {

@@ -15,6 +15,7 @@ class MaxPriorityQueue
 	     int m_HeapSize;	// Current Size
 	     int m_MaxSize;	// Maximal size of the heap
 
+          // Service functions 
 	     static int getLeftChild(int node);  // Returns the index of the left child or -1 if doesn't exist
 	     static int getRightChild(int node); // Returns the index of the right child or -1 if doesn't exist
 	     static int getParent(int node); // Returns the parent of the node or -1 in case it is a root
