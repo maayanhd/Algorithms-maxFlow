@@ -31,7 +31,8 @@ bool WeightedDirectedGraph::IsthereAPathUsingDijkstra(int s, int t, int** parent
         LinkedList* adjacentList = GetAdjList(currentPair.m_Data);
         const Node* currentNeighbor = adjacentList->GetFirst();
         
-        while (currentNeighbor != nullptr)
+        // In case the current vertex hasn't been visited yet, meaning it is inaccessible from s, no need to do relax
+        while (currentNeighbor != nullptr && visitedArr[currentPair.m_Data] == true)
         {
             Relax(currentPair.m_Data, currentNeighbor->m_Data,*parentArr,*residualCapacityArr,visitedArr,maxQueue);
             currentNeighbor = currentNeighbor->m_Next;

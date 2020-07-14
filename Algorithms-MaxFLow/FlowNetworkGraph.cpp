@@ -132,8 +132,10 @@ void FlowNetworkGraph::UpdateResidualGraphAndFlow(int* parentArrPath, int residu
           AddFlow(currentParent, v, residualCapacityOfPath);
 
           // Updating flow of Anti-parallel edge 
-          AddFlow(v, currentParent, -m_CurrentFlowMatrix[currentParent][v]);
+          //AddFlow(v, currentParent, -m_CurrentFlowMatrix[currentParent][v]);
 
+          AddFlow(v, currentParent, -residualCapacityOfPath);
+          
           // Updating residual graph for each edge along the path
           residualGraph.UpdateCapacity(currentParent, v, GetResidualFlow(currentParent, v));
 

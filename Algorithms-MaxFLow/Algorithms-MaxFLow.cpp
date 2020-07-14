@@ -10,24 +10,24 @@
 int main(int argc, char* argv[])
 {
      if (argc > 2)
-	{
-		cout << "Error: The program must receive 2 arguments only" << endl;
-		exit(1);
-	}
+     {
+          cout << "Error: The program must receive 2 arguments only" << endl;
+          exit(1);
+     }
      else
      {
-        string fileName(argv[1]);
-		//ifstream inFile1(fileName, ios::in);
+          string fileName(argv[1]);
+          ifstream inFile1(fileName, ios::in);
 
-      //  FlowNetworkGraph* graph1= FileInputHandling::InitializeGraphFromFile(inFile1);
-	//	graph1->FordFulkersonUsingBfs();
-	//	delete graph1;
-		ifstream inFile2(fileName, ios::in);
-		FlowNetworkGraph* graph2 = FileInputHandling::InitializeGraphFromFile(inFile2);
-		graph2->FordFulkeronsUsingDijkstra();
-		delete graph2;
-	}
-     
+          FlowNetworkGraph* graph1 = FileInputHandling::InitializeGraphFromFile(inFile1);
+          graph1->FordFulkersonUsingBfs();
+          delete graph1;
+          ifstream inFile2(fileName, ios::in);
+          FlowNetworkGraph* graph2 = FileInputHandling::InitializeGraphFromFile(inFile2);
+          graph2->FordFulkeronsUsingDijkstra();
+          delete graph2;
+     }
+
      return 0;
 }
 
