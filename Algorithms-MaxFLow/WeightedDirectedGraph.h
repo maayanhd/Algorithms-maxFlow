@@ -3,6 +3,7 @@
 
 
 #include "LinkedList.h"
+#include "MaxPriorityQueue.h"
 
 class WeightedDirectedGraph
 {
@@ -15,8 +16,13 @@ class WeightedDirectedGraph
           // Service validation functions
           bool isCapacityValid(int capacity);
           bool isEdgeALoop(int u, int v);
+          Pair* InitializeHeapArr();
+          void InitalizeSingleSource(int s, int** parentArr, int** residualCapacityArr, bool* visitedArr);
+          void Relax(int u, int v, int* parentArr, int* residualCapacityArr, bool* visitedArr, MaxPriorityQueue& maxQueue);
+          void InitializeVisitedArr(bool* visitedArr);
 
      public:
+          
           WeightedDirectedGraph(int n); //Default c'tor
           WeightedDirectedGraph(const WeightedDirectedGraph & other); // copy c'tor
           virtual ~WeightedDirectedGraph();
@@ -27,7 +33,7 @@ class WeightedDirectedGraph
           void RemoveEdge(int u, int v);
           bool IsVertexInRange(int v) const;
           bool IsThereAPathUsingBFS(int s, int t, int* parentArr, bool* visitedArr);
-          void InitializeVisitedArr(bool* visitedArr);
+          bool IsthereAPathUsingDijkstra(int s, int t, int** parentArr, int** residualCapacityArr, bool* visitedArr);
           void UpdateCapacity(int u, int v, int capacityToAdd);
           int GetCapacity(int u, int v) const;
           inline int GetNumOfVertexes() const

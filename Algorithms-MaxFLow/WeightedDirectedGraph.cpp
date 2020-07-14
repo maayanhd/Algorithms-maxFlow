@@ -2,6 +2,7 @@
 #include "FileInputHandling.h"
 #include "Queue.h"
 
+
 WeightedDirectedGraph::WeightedDirectedGraph(int n) : m_NumOfVertexes(n)
 {
      MakeEmptyGraph(n);
@@ -19,7 +20,73 @@ WeightedDirectedGraph::WeightedDirectedGraph(const WeightedDirectedGraph & other
           }
      }
 }
+bool WeightedDirectedGraph::IsthereAPathUsingDijkstra(int s, int t, int** parentArr,int **residualCapacityArr,bool * visitedArr)
+{
+    InitalizeSingleSource(s,parentArr,residualCapacityArr, visitedArr);
+    MaxPriorityQueue maxQueue(*residualCapacityArr,visitedArr, m_NumOfVertexes);
 
+    while (!maxQueue.IsEmpty())
+    {
+        Pair currentPair = maxQueue.DeleteMax();
+        LinkedList* adjacentList = GetAdjList(currentPair.m_Data);
+        const Node* currentNeighbor = adjacentList->GetFirst();
+        
+        while (currentNeighbor != nullptr)
+        {
+            Relax(currentPair.m_Data, currentNeighbor->m_Data,*parentArr,*residualCapacityArr,visitedArr,maxQueue);
+            currentNeighbor = currentNeighbor->m_Next;
+        }
+    }
+
+    return visitedArr[t];
+}
+
+
+void WeightedDirectedGraph::InitalizeSingleSource(int s, int **parentArr,int** residualCapacityArr,bool* visitedArr)
+{
+    *parentArr = new int[m_NumOfVertexes + 1];
+    *residualCapacityArr = new int[m_NumOfVertexes + 1];
+
+    for (int i = 1; i <= m_NumOfVertexes; i++)
+    {
+        (*parentArr)[i] = NULL;
+        (*residualCapacityArr)[i] = INT_MAX;
+        visitedArr[i] = false;
+    }
+
+    visitedArr[s] = true;
+}
+void WeightedDirectedGraph::Relax(int u, int v, int* parentArr, int* residualCapacityArr,bool* visitedArr,MaxPriorityQueue &maxQueue)
+{
+    int minEdgeResidualCapacity = m_AdjacentMatrix[u][v] < residualCapacityArr[u] ? m_AdjacentMatrix[u][v] : residualCapacityArr[u];
+
+    // Checks if residual capacity of current path to v is lower than residual capacity of path to v through u //
+    if (visitedArr[v] == false ||residualCapacityArr[v] < minEdgeResidualCapacity )
+    {
+        residualCapacityArr[v] = minEdgeResidualCapacity;
+        parentArr[v] = u;
+        visitedArr[v] = true;
+
+        if (!maxQueue.IsEmpty())
+        {
+            maxQueue.IncreaseKey(maxQueue.GetVertexIdxInHeap(v), residualCapacityArr[v]);
+        }
+    }
+
+    
+}
+Pair* WeightedDirectedGraph::InitializeHeapArr()
+{
+    Pair* heapArr = new Pair[m_NumOfVertexes];
+
+    for (int i = 1; i < m_NumOfVertexes; i++)
+    {
+            heapArr[i].m_Key = (int)-INFINITY;
+            heapArr[i].m_Data = i;
+    }
+
+    return heapArr;
+}
 int WeightedDirectedGraph::GetCapacity(int u, int v) const
 {
      if (!IsVertexInRange(u) || !IsVertexInRange(v))

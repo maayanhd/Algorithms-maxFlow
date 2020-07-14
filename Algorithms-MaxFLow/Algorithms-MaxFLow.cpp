@@ -16,13 +16,16 @@ int main(int argc, char* argv[])
 	}
      else
      {
-          string fileName(argv[1]);
-		ifstream inFile(fileName, ios::in);
+        string fileName(argv[1]);
+		//ifstream inFile1(fileName, ios::in);
 
-          FlowNetworkGraph* currentGraph= FileInputHandling::InitializeGraphFromFile(inFile);
-		currentGraph->FordFulkersonUsingBfs();
-          
-		delete currentGraph;
+      //  FlowNetworkGraph* graph1= FileInputHandling::InitializeGraphFromFile(inFile1);
+	//	graph1->FordFulkersonUsingBfs();
+	//	delete graph1;
+		ifstream inFile2(fileName, ios::in);
+		FlowNetworkGraph* graph2 = FileInputHandling::InitializeGraphFromFile(inFile2);
+		graph2->FordFulkeronsUsingDijkstra();
+		delete graph2;
 	}
      
      return 0;

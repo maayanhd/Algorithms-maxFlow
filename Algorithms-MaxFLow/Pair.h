@@ -14,6 +14,9 @@ struct Pair
 			m_Data = data;
 			m_Key = key;
 		}
+
+		Pair() = default;
+
 };
 
 #endif
