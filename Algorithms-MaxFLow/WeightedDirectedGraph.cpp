@@ -37,6 +37,8 @@ bool WeightedDirectedGraph::IsthereAPathUsingDijkstra(int s, int t, int** parent
             Relax(currentPair.m_Data, currentNeighbor->m_Data,*parentArr,*residualCapacityArr,visitedArr,maxQueue);
             currentNeighbor = currentNeighbor->m_Next;
         }
+
+        delete adjacentList;
     }
 
     return visitedArr[t];

@@ -17,6 +17,8 @@ int MaxPriorityQueue::getParent(int node)
 
 MaxPriorityQueue::~MaxPriorityQueue() 
 {
+	delete[] m_MaxHeap;
+	delete[] m_IdxArr;
 }
 
 void MaxPriorityQueue::FixHeap(int currentNode)
@@ -72,7 +74,6 @@ MaxPriorityQueue::MaxPriorityQueue(int* heapArr,bool* visitedArr, int heapSize)
 		m_IdxArr[i + 1] = i;
 	}
     BuildHeap();
-
 }
 
 void MaxPriorityQueue::MarkVertexAsVisited(int v)

@@ -6,6 +6,7 @@ void Queue::MakeEmpty()
 	{
 		this->Dequeue();
 	}
+	delete m_Front;
 }
 
 Queue::Queue()
