@@ -21,32 +21,30 @@ void FlowNetworkGraph::FordFulkeronsUsingGreedyMethod() {
      WeightedDirectedGraph residualGraph((WeightedDirectedGraph)(*this));
      int numOfItr = 0;
      // Creating a parent array to hold the path from s to t
-     int* parentArr = nullptr, *residualCapacityArr = nullptr;
-     bool* visitedArr = nullptr;
+     int* parentArr = new int[m_NumOfVertexes + 1];
+     int *residualCapacityArr = new int[m_NumOfVertexes+1];
+     bool* visitedArr = new bool[m_NumOfVertexes + 1];
 
      // Checking whether there's a path from s to t in the residual graph, meaning theres augmenting path 
-     while (residualGraph.IsthereAPathUsingGreedyMethod(m_S, m_T, &parentArr, &residualCapacityArr, &visitedArr))
+     while (residualGraph.IsthereAPathUsingGreedyMethod(m_S, m_T, parentArr, residualCapacityArr, visitedArr))
      {
           int residualCapacityOfPath = GetResidualCapacityOfPath(residualGraph, parentArr);
           // Augmenting flow along the path from s to t - updating flow mat and residual graph
           UpdateResidualGraphAndFlow(parentArr, residualCapacityOfPath, residualGraph);
           numOfItr++;
 
-          delete[] parentArr;
-          delete[] residualCapacityArr;
-          delete[] visitedArr;
      }
 
-     PrintFulkersonUsingGreedyMethodOutput(visitedArr, numOfItr);
+     PrintFordFulkersonOutput("Greedy",visitedArr, numOfItr);
 
      delete[] parentArr;
      delete[] residualCapacityArr;
      delete[] visitedArr;
 }
 
-void FlowNetworkGraph::PrintFulkersonUsingGreedyMethodOutput(bool* visitedArr, int numOfItr)
+void FlowNetworkGraph::PrintFordFulkersonOutput(string methodNameStr, bool* visitedArr, int numOfItr)
 {
-     cout << "Greedy Method:" << endl;
+     cout << methodNameStr << " Method: " << endl;
      cout << "Max flow = " << m_MaxFlow << endl;
      PrintMinCut(visitedArr);
      cout << "Number of iterations = " << numOfItr << endl;
@@ -86,17 +84,9 @@ void FlowNetworkGraph::FordFulkersonUsingBfs()
           numOfItr++;
      }
 
-     PrintFulkersonUsingBfsOutput(visitedArr, numOfItr);
-     delete[] visitedArr;
+     PrintFordFulkersonOutput("BFS",visitedArr, numOfItr);
+      delete[] visitedArr;
      delete[] parentArr;
-}
-
-void FlowNetworkGraph::PrintFulkersonUsingBfsOutput(bool* visitedArr, int numOfItr)
-{
-     cout << "BFS Method:" << endl;
-     cout << "Max flow = " << m_MaxFlow << endl;
-     PrintMinCut(visitedArr);
-     cout << "Number of iterations = " << numOfItr << endl;
 }
 
 void FlowNetworkGraph::PrintMinCut(bool* visitedArr)
@@ -129,11 +119,11 @@ void FlowNetworkGraph::UpdateResidualGraphAndFlow(int* parentArrPath, int residu
      {
           // Updating Flow 
           int currentParent = parentArrPath[v];
-          UpdateFlow(currentParent, v, residualCapacityOfPath);
+          AddFlow(currentParent, v, residualCapacityOfPath);
 
           // Updating flow of Anti-parallel edge 
 
-          UpdateFlow(v, currentParent, -residualCapacityOfPath);
+          AddFlow(v, currentParent, -residualCapacityOfPath);
 
           // Updating residual graph for each edge along the path
           residualGraph.UpdateCapacity(currentParent, v, GetResidualFlow(currentParent, v));
@@ -177,7 +167,7 @@ int FlowNetworkGraph::GetResidualFlow(int u, int v)
      return m_AdjacentMatrix[u][v] - m_CurrentFlowMatrix[u][v];
 }
 
-void FlowNetworkGraph::UpdateFlow(int u, int v, int flowToAdd)
+void FlowNetworkGraph::AddFlow(int u, int v, int flowToAdd)
 {
      if (!IsVertexInRange(u) || !IsVertexInRange(v) || !IsFlowToAddIsValid(u, v, flowToAdd))
      {

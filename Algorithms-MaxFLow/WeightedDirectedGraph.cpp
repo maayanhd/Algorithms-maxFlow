@@ -20,10 +20,10 @@ WeightedDirectedGraph::WeightedDirectedGraph(const WeightedDirectedGraph & other
           }
      }
 }
-bool WeightedDirectedGraph::IsthereAPathUsingGreedyMethod(int s, int t, int** parentArr,int **residualCapacityArr,bool ** visitedArr)
+bool WeightedDirectedGraph::IsthereAPathUsingGreedyMethod(int s, int t, int* parentArr,int* residualCapacityArr,bool* visitedArr)
 {
-    InitalizeSingleSource(s,parentArr,residualCapacityArr, visitedArr);
-    MaxPriorityQueue maxQueue(*residualCapacityArr,visitedArr, m_NumOfVertexes);
+    InitalizeSingleSourceForGreedyMethod(s,parentArr,residualCapacityArr, visitedArr);
+    MaxPriorityQueue maxQueue(residualCapacityArr,visitedArr, m_NumOfVertexes);
 
     while (!maxQueue.IsEmpty())
     {
@@ -32,33 +32,29 @@ bool WeightedDirectedGraph::IsthereAPathUsingGreedyMethod(int s, int t, int** pa
         const Node* currentNeighbor = adjacentList->GetFirst();
         
         // In case the current vertex hasn't been visited yet, meaning it is inaccessible from s, no need to do relax
-        while (currentNeighbor != nullptr && (*visitedArr)[currentPair.m_Data] == true)
+        while (currentNeighbor != nullptr && visitedArr[currentPair.m_Data] == true)
         {
-            Relax(currentPair.m_Data, currentNeighbor->m_Data,*parentArr,*residualCapacityArr,*visitedArr,maxQueue);
+            Relax(currentPair.m_Data, currentNeighbor->m_Data,parentArr,residualCapacityArr,visitedArr,maxQueue);
             currentNeighbor = currentNeighbor->m_Next;
         }
 
         delete adjacentList;
     }
 
-    return (*visitedArr)[t];
+    return visitedArr[t];
 }
 
 
-void WeightedDirectedGraph::InitalizeSingleSource(int s, int **parentArr,int** residualCapacityArr,bool** visitedArr)
+void WeightedDirectedGraph::InitalizeSingleSourceForGreedyMethod(int s, int *parentArr,int* residualCapacityArr,bool* visitedArr)
 {
-    *parentArr = new int[m_NumOfVertexes + 1];
-    *residualCapacityArr = new int[m_NumOfVertexes + 1];
-    *visitedArr = new bool[m_NumOfVertexes + 1];
-
     for (int i = 1; i <= m_NumOfVertexes; i++)
     {
-        (*parentArr)[i] = NULL;
-        (*residualCapacityArr)[i] = INT_MAX;
-        (*visitedArr)[i] = false;
+        parentArr[i] = NULL;
+        residualCapacityArr[i] = INT_MAX;
+        visitedArr[i] = false;
     }
 
-    (*visitedArr)[s] = true;
+    visitedArr[s] = true;
 }
 void WeightedDirectedGraph::Relax(int u, int v, int* parentArr, int* residualCapacityArr,bool* visitedArr,MaxPriorityQueue &maxQueue)
 {
@@ -76,8 +72,6 @@ void WeightedDirectedGraph::Relax(int u, int v, int* parentArr, int* residualCap
             maxQueue.IncreaseKey(maxQueue.GetVertexIdxInHeap(v), residualCapacityArr[v]);
         }
     }
-
-    
 }
 
 int WeightedDirectedGraph::GetCapacity(int u, int v) const
@@ -126,7 +120,6 @@ void WeightedDirectedGraph::MakeEmptyGraph(int n)
           }
      }
 
-     m_NumOfEdges = 0;
 }
 
 bool WeightedDirectedGraph::IsAdjacent(int u, int v)
@@ -156,7 +149,7 @@ bool WeightedDirectedGraph::isEdgeALoop(int u, int v)
 
 bool WeightedDirectedGraph::IsThereAPathUsingBFS(int s, int t, int* parentArr, bool* visitedArr)
 {
-     InitializeVisitedArr(visitedArr);  // For tracking the vertexes we already visited and marking them
+     InitalizeSingleSourceForBFS(s,parentArr,visitedArr);  // For tracking the vertexes we already visited and marking them
 
      Queue  trackingQueue; // Helping to track after the  
      // Marking the starting vertex and pushing it to the queue
@@ -197,12 +190,15 @@ bool WeightedDirectedGraph::IsThereAPathUsingBFS(int s, int t, int* parentArr, b
      delete[] visitedArr;
 }
 
-void WeightedDirectedGraph::InitializeVisitedArr(bool * visitedArr)
+void WeightedDirectedGraph::InitalizeSingleSourceForBFS(int s, int* parentArr, bool* visitedArr)
 {
      for (int i = 0; i <= m_NumOfVertexes; i++)   // n + 1 vertexes for convenient access to the data structure 
      {
+          parentArr[i] = NULL;
           visitedArr[i] = false;
      }
+
+     visitedArr[s] = true;
 }
 
 LinkedList* WeightedDirectedGraph::GetAdjList(int u)
@@ -228,7 +224,6 @@ void WeightedDirectedGraph::AddEdge(int u, int v, int c)
           FileInputHandling::NotifyInputError();
      }
 
-     m_NumOfEdges++;
 
      m_AdjacentMatrix[u][v] = c;
 }
@@ -241,6 +236,5 @@ void WeightedDirectedGraph::RemoveEdge(int u, int v)
           exit(1);
      }
 
-     m_NumOfEdges--;
      m_AdjacentMatrix[u][v] = 0;
 }
