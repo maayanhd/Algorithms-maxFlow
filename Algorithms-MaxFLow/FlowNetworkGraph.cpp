@@ -16,29 +16,28 @@ FlowNetworkGraph:: ~FlowNetworkGraph()
 
      delete[] m_CurrentFlowMatrix;
 }
-void FlowNetworkGraph::FordFulkeronsUsingDijkstra() {
+void FlowNetworkGraph::FordFulkeronsUsingGreedyAlgorithm() {
      // Creating Residual Graph 
      WeightedDirectedGraph residualGraph((WeightedDirectedGraph)(*this));
      int numOfItr = 0;
      // Creating a parent array to hold the path from s to t
-     int* parentArr, *residualCapacityArr;
+     int* parentArr = nullptr, *residualCapacityArr = nullptr;
      bool* visitedArr = new bool[m_NumOfVertexes + 1];
 
      // Checking whether there's a path from s to t in the residual graph, meaning theres augmenting path 
-     while (residualGraph.IsthereAPathUsingDijkstra(m_S, m_T, &parentArr, &residualCapacityArr, visitedArr))
-     {
-          int residualCapacityOfPath = GetResidualCapacityOfPath(residualGraph, parentArr);
+     //while (residualGraph.IsthereAPathUsingDijkstra(m_S, m_T, &parentArr, &residualCapacityArr, visitedArr))
+     //{
+     //     int residualCapacityOfPath = GetResidualCapacityOfPath(residualGraph, parentArr);
+     //     // Augmenting flow along the path from s to t - updating flow mat and residual graph
+     //     UpdateResidualGraphAndFlow(parentArr, residualCapacityOfPath, residualGraph);
+     //     numOfItr++;
 
-          // Augmenting flow along the path from s to t - updating flow mat and residual graph
-          UpdateResidualGraphAndFlow(parentArr, residualCapacityOfPath, residualGraph);
-          numOfItr++;
-     }
+     //     //delete[] parentArr;
+     //     //delete[] residualCapacityArr;
+     //}
 
      PrintFulkersonUsingDijkstraOutput(visitedArr, numOfItr);
-     delete[] parentArr;
      delete[] visitedArr;
-     delete[] residualCapacityArr;
-
 }
 
 void FlowNetworkGraph::PrintFulkersonUsingDijkstraOutput(bool* visitedArr, int numOfItr)
@@ -129,12 +128,11 @@ void FlowNetworkGraph::UpdateResidualGraphAndFlow(int* parentArrPath, int residu
      {
           // Updating Flow 
           int currentParent = parentArrPath[v];
-          AddFlow(currentParent, v, residualCapacityOfPath);
+          UpdateFlow(currentParent, v, residualCapacityOfPath);
 
           // Updating flow of Anti-parallel edge 
-          //AddFlow(v, currentParent, -m_CurrentFlowMatrix[currentParent][v]);
 
-          AddFlow(v, currentParent, -residualCapacityOfPath);
+          UpdateFlow(v, currentParent, -residualCapacityOfPath);
 
           // Updating residual graph for each edge along the path
           residualGraph.UpdateCapacity(currentParent, v, GetResidualFlow(currentParent, v));
@@ -153,7 +151,6 @@ int FlowNetworkGraph::GetResidualCapacityOfPath(const WeightedDirectedGraph& res
      // Finding the minimal residual capacity of all edges in the path from s to t
      int currentParent = parentArrPath[m_T];
      int**  residualAdjMatrix = residualGraph.GetAdjacentMatrix();
-
      int minEdgeResidualCapacity = residualAdjMatrix[currentParent][m_T];
 
      for (int v = currentParent; v != m_S; v = parentArrPath[v])
@@ -179,7 +176,7 @@ int FlowNetworkGraph::GetResidualFlow(int u, int v)
      return m_AdjacentMatrix[u][v] - m_CurrentFlowMatrix[u][v];
 }
 
-void FlowNetworkGraph::AddFlow(int u, int v, int flowToAdd)
+void FlowNetworkGraph::UpdateFlow(int u, int v, int flowToAdd)
 {
      if (!IsVertexInRange(u) || !IsVertexInRange(v) || !IsFlowToAddIsValid(u, v, flowToAdd))
      {

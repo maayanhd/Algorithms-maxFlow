@@ -21,13 +21,13 @@ class FlowNetworkGraph : public WeightedDirectedGraph
          FlowNetworkGraph(int n,int s,int t);
 	     virtual ~FlowNetworkGraph();
 	     void MakeEmptyFlow();
-	     void AddFlow(int u, int v, int flowToAdd);
+	     void UpdateFlow(int u, int v, int flowToAdd);
 	     bool IsFlowToAddIsValid(int u, int v, int flowToAdd);
 	     inline int GetResidualFlow(int u, int v);
          void FordFulkersonUsingBfs(); // Updating MaxFlow
          void PrintVertexesByBoolean(bool* visitedArr, string vertexNameStr, bool areVertexesAccesibleFromS);
          void PrintMinCut(bool* visitedArr);
-         void FordFulkeronsUsingDijkstra();
+         void FordFulkeronsUsingGreedyAlgorithm();
      
 };
 
