@@ -61,11 +61,11 @@ void MaxPriorityQueue::Swap(int node1, int node2)
 
 }
 
-MaxPriorityQueue::MaxPriorityQueue(int* heapArr,bool* visitedArr, int heapSize)
+MaxPriorityQueue::MaxPriorityQueue(int* heapArr,bool** visitedArr, int heapSize)
 {
 	this->m_HeapSize = m_MaxSize = heapSize;
 	this->m_IdxArr = new int[heapSize + 1];
-	this->m_VisitedArr = visitedArr;
+	this->m_VisitedArr = *visitedArr;
 	m_MaxHeap = new Pair[heapSize];
 	for (int i = 0; i < m_HeapSize; i++)
 	{

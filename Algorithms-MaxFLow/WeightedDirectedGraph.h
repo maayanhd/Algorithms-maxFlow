@@ -16,7 +16,7 @@ class WeightedDirectedGraph
           // Service validation functions
           bool isCapacityValid(int capacity);
           bool isEdgeALoop(int u, int v);
-          void InitalizeSingleSource(int s, int** parentArr, int** residualCapacityArr, bool* visitedArr);
+          void InitalizeSingleSource(int s, int** parentArr, int** residualCapacityArr, bool** visitedArr);
           void Relax(int u, int v, int* parentArr, int* residualCapacityArr, bool* visitedArr, MaxPriorityQueue& maxQueue);
           void InitializeVisitedArr(bool* visitedArr);
 
@@ -32,7 +32,7 @@ class WeightedDirectedGraph
           void RemoveEdge(int u, int v);
           bool IsVertexInRange(int v) const;
           bool IsThereAPathUsingBFS(int s, int t, int* parentArr, bool* visitedArr);
-          bool IsthereAPathUsingDijkstra(int s, int t, int** parentArr, int** residualCapacityArr, bool* visitedArr);
+          bool IsthereAPathUsingGreedyMethod(int s, int t, int** parentArr, int** residualCapacityArr, bool** visitedArr);
           void UpdateCapacity(int u, int v, int capacityToAdd);
           int GetCapacity(int u, int v) const;
           inline int GetNumOfVertexes() const

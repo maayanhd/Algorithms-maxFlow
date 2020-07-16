@@ -12,29 +12,29 @@
 
 int main(int argc, char* argv[])
 {
-    //{
-    //    if (argc > 2)
-    //    {
-    //        cout << "Error: The program must receive 2 arguments only" << endl;
-    //        exit(1);
-    //    }
-    //    else
-    //    {
-    //        string fileName(argv[1]);
-    //        
-    //       /* ifstream inFile1(fileName, ios::in);
-    //        FlowNetworkGraph* graph1 = FileInputHandling::InitializeGraphFromFile(inFile1);
-    //        graph1->FordFulkersonUsingBfs();
-    //        inFile1.close();
-    //        delete graph1;*/
+    {
+        if (argc > 2)
+        {
+            cout << "Error: The program must receive 2 arguments only" << endl;
+            exit(1);
+        }
+        else
+        {
+            string fileName(argv[1]);
+            
+            ifstream inFile1(fileName, ios::in);
+            FlowNetworkGraph* graph1 = FileInputHandling::InitializeGraphFromFile(inFile1);
+            graph1->FordFulkersonUsingBfs();
+            inFile1.close();
+            delete graph1;
 
-    //        ifstream inFile2(fileName, ios::in);
-    //        FlowNetworkGraph* graph2 = FileInputHandling::InitializeGraphFromFile(inFile2);
-    //        graph2->FordFulkeronsUsingGreedyAlgorithm();
-    //        delete graph2;
-    //        inFile2.close();
-    //    }
-    //}
+            ifstream inFile2(fileName, ios::in);
+            FlowNetworkGraph* graph2 = FileInputHandling::InitializeGraphFromFile(inFile2);
+            graph2->FordFulkeronsUsingGreedyMethod();
+            delete graph2;
+            inFile2.close();
+        }
+    }
 
     if (_CrtDumpMemoryLeaks())
     {

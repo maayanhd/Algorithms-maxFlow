@@ -30,7 +30,7 @@ class MaxPriorityQueue
 		 int GetVertexIdxInHeap(int v);
 		 void IncreaseKey(int place, int newKey);
 	     void BuildHeap();
-		 MaxPriorityQueue(int* heapArr, bool* visitedArr, int heapSize);
+		 MaxPriorityQueue(int* heapArr, bool** visitedArr, int heapSize);
 	     ~MaxPriorityQueue();
 	     void Swap(int node1, int node2);
 	     Pair DeleteMax();

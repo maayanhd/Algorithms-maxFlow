@@ -16,35 +16,39 @@ FlowNetworkGraph:: ~FlowNetworkGraph()
 
      delete[] m_CurrentFlowMatrix;
 }
-void FlowNetworkGraph::FordFulkeronsUsingGreedyAlgorithm() {
+void FlowNetworkGraph::FordFulkeronsUsingGreedyMethod() {
      // Creating Residual Graph 
      WeightedDirectedGraph residualGraph((WeightedDirectedGraph)(*this));
      int numOfItr = 0;
      // Creating a parent array to hold the path from s to t
      int* parentArr = nullptr, *residualCapacityArr = nullptr;
-     bool* visitedArr = new bool[m_NumOfVertexes + 1];
+     bool* visitedArr = nullptr;
 
      // Checking whether there's a path from s to t in the residual graph, meaning theres augmenting path 
-     //while (residualGraph.IsthereAPathUsingDijkstra(m_S, m_T, &parentArr, &residualCapacityArr, visitedArr))
-     //{
-     //     int residualCapacityOfPath = GetResidualCapacityOfPath(residualGraph, parentArr);
-     //     // Augmenting flow along the path from s to t - updating flow mat and residual graph
-     //     UpdateResidualGraphAndFlow(parentArr, residualCapacityOfPath, residualGraph);
-     //     numOfItr++;
+     while (residualGraph.IsthereAPathUsingGreedyMethod(m_S, m_T, &parentArr, &residualCapacityArr, &visitedArr))
+     {
+          int residualCapacityOfPath = GetResidualCapacityOfPath(residualGraph, parentArr);
+          // Augmenting flow along the path from s to t - updating flow mat and residual graph
+          UpdateResidualGraphAndFlow(parentArr, residualCapacityOfPath, residualGraph);
+          numOfItr++;
 
-     //     //delete[] parentArr;
-     //     //delete[] residualCapacityArr;
-     //}
+          delete[] parentArr;
+          delete[] residualCapacityArr;
+          delete[] visitedArr;
+     }
 
-     PrintFulkersonUsingDijkstraOutput(visitedArr, numOfItr);
+     PrintFulkersonUsingGreedyMethodOutput(visitedArr, numOfItr);
+
+     delete[] parentArr;
+     delete[] residualCapacityArr;
      delete[] visitedArr;
 }
 
-void FlowNetworkGraph::PrintFulkersonUsingDijkstraOutput(bool* visitedArr, int numOfItr)
+void FlowNetworkGraph::PrintFulkersonUsingGreedyMethodOutput(bool* visitedArr, int numOfItr)
 {
-     cout << "Dijkstra Method:" << endl;
+     cout << "Greedy Method:" << endl;
      cout << "Max flow = " << m_MaxFlow << endl;
-     PrintMinCutUsingDijkstra(visitedArr);
+     PrintMinCut(visitedArr);
      cout << "Number of iterations = " << numOfItr << endl;
 }
 void FlowNetworkGraph::MakeEmptyFlow()
@@ -94,10 +98,7 @@ void FlowNetworkGraph::PrintFulkersonUsingBfsOutput(bool* visitedArr, int numOfI
      PrintMinCut(visitedArr);
      cout << "Number of iterations = " << numOfItr << endl;
 }
-void FlowNetworkGraph::PrintMinCutUsingDijkstra(bool *visitedArr)
-{
-     PrintMinCut(visitedArr);
-}
+
 void FlowNetworkGraph::PrintMinCut(bool* visitedArr)
 {
      cout << "Min cut: ";

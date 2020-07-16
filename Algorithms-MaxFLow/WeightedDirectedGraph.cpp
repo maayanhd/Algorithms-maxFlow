@@ -20,7 +20,7 @@ WeightedDirectedGraph::WeightedDirectedGraph(const WeightedDirectedGraph & other
           }
      }
 }
-bool WeightedDirectedGraph::IsthereAPathUsingDijkstra(int s, int t, int** parentArr,int **residualCapacityArr,bool * visitedArr)
+bool WeightedDirectedGraph::IsthereAPathUsingGreedyMethod(int s, int t, int** parentArr,int **residualCapacityArr,bool ** visitedArr)
 {
     InitalizeSingleSource(s,parentArr,residualCapacityArr, visitedArr);
     MaxPriorityQueue maxQueue(*residualCapacityArr,visitedArr, m_NumOfVertexes);
@@ -32,32 +32,33 @@ bool WeightedDirectedGraph::IsthereAPathUsingDijkstra(int s, int t, int** parent
         const Node* currentNeighbor = adjacentList->GetFirst();
         
         // In case the current vertex hasn't been visited yet, meaning it is inaccessible from s, no need to do relax
-        while (currentNeighbor != nullptr && visitedArr[currentPair.m_Data] == true)
+        while (currentNeighbor != nullptr && (*visitedArr)[currentPair.m_Data] == true)
         {
-            Relax(currentPair.m_Data, currentNeighbor->m_Data,*parentArr,*residualCapacityArr,visitedArr,maxQueue);
+            Relax(currentPair.m_Data, currentNeighbor->m_Data,*parentArr,*residualCapacityArr,*visitedArr,maxQueue);
             currentNeighbor = currentNeighbor->m_Next;
         }
 
         delete adjacentList;
     }
 
-    return visitedArr[t];
+    return (*visitedArr)[t];
 }
 
 
-void WeightedDirectedGraph::InitalizeSingleSource(int s, int **parentArr,int** residualCapacityArr,bool* visitedArr)
+void WeightedDirectedGraph::InitalizeSingleSource(int s, int **parentArr,int** residualCapacityArr,bool** visitedArr)
 {
     *parentArr = new int[m_NumOfVertexes + 1];
     *residualCapacityArr = new int[m_NumOfVertexes + 1];
+    *visitedArr = new bool[m_NumOfVertexes + 1];
 
     for (int i = 1; i <= m_NumOfVertexes; i++)
     {
         (*parentArr)[i] = NULL;
         (*residualCapacityArr)[i] = INT_MAX;
-        visitedArr[i] = false;
+        (*visitedArr)[i] = false;
     }
 
-    visitedArr[s] = true;
+    (*visitedArr)[s] = true;
 }
 void WeightedDirectedGraph::Relax(int u, int v, int* parentArr, int* residualCapacityArr,bool* visitedArr,MaxPriorityQueue &maxQueue)
 {

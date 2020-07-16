@@ -14,8 +14,8 @@ class FlowNetworkGraph : public WeightedDirectedGraph
           int GetResidualCapacityOfPath(const WeightedDirectedGraph& residualGraph, int* parentArrPath);
           void UpdateResidualGraphAndFlow(int* parentArrPath, int residualCapacityOfPath, WeightedDirectedGraph& residualGraph);
           void PrintFulkersonUsingBfsOutput(bool* visitedArr, int numOfItr);
-          void PrintFulkersonUsingDijkstraOutput(bool* visitedArr, int numOfItr);
-          void PrintMinCutUsingDijkstra(bool* visitedArr);
+          void PrintFulkersonUsingGreedyMethodOutput(bool* visitedArr, int numOfItr);
+        
           
      public:
          FlowNetworkGraph(int n,int s,int t);
@@ -27,7 +27,7 @@ class FlowNetworkGraph : public WeightedDirectedGraph
          void FordFulkersonUsingBfs(); // Updating MaxFlow
          void PrintVertexesByBoolean(bool* visitedArr, string vertexNameStr, bool areVertexesAccesibleFromS);
          void PrintMinCut(bool* visitedArr);
-         void FordFulkeronsUsingGreedyAlgorithm();
+         void FordFulkeronsUsingGreedyMethod();
      
 };
 
