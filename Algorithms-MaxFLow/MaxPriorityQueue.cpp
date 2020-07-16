@@ -24,13 +24,19 @@ void MaxPriorityQueue::FixHeap(int currentNode)
 	int max;
 	int leftChild = getLeftChild(currentNode);
 	int rightChild = getRightChild(currentNode);
-
-	if ((leftChild < m_HeapSize) && IsHigherPriority(leftChild,currentNode))
+	if ((leftChild < m_HeapSize) && IsHigherPriority(leftChild, currentNode))
+	{
 		max = leftChild;
+	}	
 	else
+	{
 		max = currentNode;
+	}
 	if ((rightChild < m_HeapSize) && IsHigherPriority(rightChild, max))
+	{
 		max = rightChild;
+	}
+		
 
 	if (max != currentNode)
 	{
@@ -66,6 +72,7 @@ MaxPriorityQueue::MaxPriorityQueue(int* heapArr,bool* visitedArr, int heapSize)
 		m_IdxArr[i + 1] = i;
 	}
     BuildHeap();
+
 }
 
 void MaxPriorityQueue::MarkVertexAsVisited(int v)
@@ -77,9 +84,23 @@ bool MaxPriorityQueue::IsHigherPriority(int node1, int node2)
 {
 	bool res = false;
 	bool isVisited = m_VisitedArr[m_MaxHeap[node2].m_Data];
-	if (isVisited == false ||( m_MaxHeap[node1].m_Key > m_MaxHeap[node2].m_Key && m_VisitedArr[node1]==true))
+	int vertex1 = m_MaxHeap[node1].m_Data;
+	int vertex2 = m_MaxHeap[node2].m_Data;
+
+	if (m_VisitedArr[vertex1] == false && m_VisitedArr[vertex2] == false)
+	{
+	}
+	else if (m_VisitedArr[vertex1] == false)
+	{
+		res = false;
+	}
+	else if (m_VisitedArr[vertex2] == false)
 	{
 		res = true;
+	}
+	else
+	{
+		res = m_MaxHeap[node1].m_Key > m_MaxHeap[node2].m_Key;
 	}
 
 	return res;
@@ -145,7 +166,6 @@ void MaxPriorityQueue::IncreaseKey(int place, int newKey)
 	int parentIdx = 0;
 	while (IsHigherPriority(i, parentIdx = getParent(i)) && i!=0)
 	{
-		
 		Swap(i, parentIdx);
 		i = parentIdx;
 	}

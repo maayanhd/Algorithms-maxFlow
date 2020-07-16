@@ -18,7 +18,7 @@ class FlowNetworkGraph : public WeightedDirectedGraph
           void PrintMinCutUsingDijkstra(bool* visitedArr);
           
      public:
-          FlowNetworkGraph(int n,int s,int t);
+         FlowNetworkGraph(int n,int s,int t);
 	     virtual ~FlowNetworkGraph();
 	     void MakeEmptyFlow();
 	     void AddFlow(int u, int v, int flowToAdd);

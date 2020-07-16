@@ -76,18 +76,7 @@ void WeightedDirectedGraph::Relax(int u, int v, int* parentArr, int* residualCap
 
     
 }
-Pair* WeightedDirectedGraph::InitializeHeapArr()
-{
-    Pair* heapArr = new Pair[m_NumOfVertexes];
 
-    for (int i = 1; i < m_NumOfVertexes; i++)
-    {
-            heapArr[i].m_Key = (int)-INFINITY;
-            heapArr[i].m_Data = i;
-    }
-
-    return heapArr;
-}
 int WeightedDirectedGraph::GetCapacity(int u, int v) const
 {
      if (!IsVertexInRange(u) || !IsVertexInRange(v))

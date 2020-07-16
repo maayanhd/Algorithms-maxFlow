@@ -16,7 +16,6 @@ class WeightedDirectedGraph
           // Service validation functions
           bool isCapacityValid(int capacity);
           bool isEdgeALoop(int u, int v);
-          Pair* InitializeHeapArr();
           void InitalizeSingleSource(int s, int** parentArr, int** residualCapacityArr, bool* visitedArr);
           void Relax(int u, int v, int* parentArr, int* residualCapacityArr, bool* visitedArr, MaxPriorityQueue& maxQueue);
           void InitializeVisitedArr(bool* visitedArr);
