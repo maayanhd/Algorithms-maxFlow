@@ -1,7 +1,12 @@
 #include "FlowNetworkGraph.h"
+#include "FileInputHandling.h"
 
 FlowNetworkGraph::FlowNetworkGraph(int n, int s, int t) : WeightedDirectedGraph(n)
 {
+    if (!IsVertexInRange(s) || !IsVertexInRange(t))
+    {
+        FileInputHandling::NotifyInputError();
+    }
      m_S = s;
      m_T = t;
      MakeEmptyFlow();
@@ -171,8 +176,7 @@ void FlowNetworkGraph::AddFlow(int u, int v, int flowToAdd)
 {
      if (!IsVertexInRange(u) || !IsVertexInRange(v) || !IsFlowToAddIsValid(u, v, flowToAdd))
      {
-          cout << "invalid input" << endl;
-          exit(1);
+         FileInputHandling::NotifyInputError();
      }
 
      m_CurrentFlowMatrix[u][v] += flowToAdd;

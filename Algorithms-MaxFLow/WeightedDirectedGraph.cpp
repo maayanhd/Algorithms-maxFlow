@@ -56,6 +56,7 @@ void WeightedDirectedGraph::InitalizeSingleSourceForGreedyMethod(int s, int *par
 
     visitedArr[s] = true;
 }
+
 void WeightedDirectedGraph::Relax(int u, int v, int* parentArr, int* residualCapacityArr,bool* visitedArr,MaxPriorityQueue &maxQueue)
 {
     int minEdgeResidualCapacity = m_AdjacentMatrix[u][v] < residualCapacityArr[u] ? m_AdjacentMatrix[u][v] : residualCapacityArr[u];
@@ -78,8 +79,7 @@ int WeightedDirectedGraph::GetCapacity(int u, int v) const
 {
      if (!IsVertexInRange(u) || !IsVertexInRange(v))
      {
-          cout << "invalid input" << endl;
-          exit(1);
+         FileInputHandling::NotifyInputError();
      }
 
      return m_AdjacentMatrix[u][v];     
@@ -89,8 +89,7 @@ void WeightedDirectedGraph::UpdateCapacity(int u, int v, int capacityToAdd)
 {
      if (!IsVertexInRange(u) || !IsVertexInRange(v) || capacityToAdd < 0)
      {
-          cout << "invalid input" << endl;
-          exit(1);
+         FileInputHandling::NotifyInputError();
      }
 
      m_AdjacentMatrix[u][v] = capacityToAdd;
@@ -232,8 +231,7 @@ void WeightedDirectedGraph::RemoveEdge(int u, int v)
 {
      if (!IsAdjacent(u, v) || !IsVertexInRange(u) || !IsVertexInRange(v))
      {
-          cout << "invalid input" << endl;
-          exit(1);
+         FileInputHandling::NotifyInputError();
      }
 
      m_AdjacentMatrix[u][v] = 0;

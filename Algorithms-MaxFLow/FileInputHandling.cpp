@@ -8,19 +8,19 @@ FlowNetworkGraph* FileInputHandling::InitializeGraphFromFile(ifstream& graphData
      {
           int n, m, u, v, s, t, c;
 
-          ReadCharFromStream(graphData, n);
-          ReadCharFromStream(graphData, m);
-          ReadCharFromStream(graphData, s);
-          ReadCharFromStream(graphData, t);
+          ReadIntFromStream(graphData, n);
+          ReadIntFromStream(graphData, m);
+          ReadIntFromStream(graphData, s);
+          ReadIntFromStream(graphData, t);
           
           resGraph = new FlowNetworkGraph(n, s, t);
           
           int itr = 0;
           for (int i = 0; i < m; i++, itr++)
           {
-               ReadCharFromStream(graphData, u);
-               ReadCharFromStream(graphData, v);
-               ReadCharFromStream(graphData, c);
+               ReadIntFromStream(graphData, u);
+               ReadIntFromStream(graphData, v);
+               ReadIntFromStream(graphData, c);
                resGraph->AddEdge(u, v, c);
           }
           
@@ -43,7 +43,7 @@ FlowNetworkGraph* FileInputHandling::InitializeGraphFromFile(ifstream& graphData
      return resGraph;
 }
 
-void FileInputHandling::ReadCharFromStream(ifstream& graphData, int& inputVal)
+void FileInputHandling::ReadIntFromStream(ifstream& graphData, int& inputVal)
 {
      graphData >> inputVal;
 
