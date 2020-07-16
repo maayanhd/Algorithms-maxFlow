@@ -17,36 +17,36 @@ FlowNetworkGraph:: ~FlowNetworkGraph()
      delete[] m_CurrentFlowMatrix;
 }
 void FlowNetworkGraph::FordFulkeronsUsingDijkstra() {
-    // Creating Residual Graph 
-    WeightedDirectedGraph residualGraph((WeightedDirectedGraph)(*this));
-    int numOfItr = 0;
-    // Creating a parent array to hold the path from s to t
-    int* parentArr, * residualCapacityArr;
-    bool* visitedArr = new bool[m_NumOfVertexes + 1];
+     // Creating Residual Graph 
+     WeightedDirectedGraph residualGraph((WeightedDirectedGraph)(*this));
+     int numOfItr = 0;
+     // Creating a parent array to hold the path from s to t
+     int* parentArr, *residualCapacityArr;
+     bool* visitedArr = new bool[m_NumOfVertexes + 1];
 
-    // Checking whether there's a path from s to t in the residual graph, meaning theres augmenting path 
-    while (residualGraph.IsthereAPathUsingDijkstra(m_S, m_T, &parentArr,&residualCapacityArr, visitedArr))
-    {
-        int residualCapacityOfPath = GetResidualCapacityOfPath(residualGraph, parentArr);
+     // Checking whether there's a path from s to t in the residual graph, meaning theres augmenting path 
+     while (residualGraph.IsthereAPathUsingDijkstra(m_S, m_T, &parentArr, &residualCapacityArr, visitedArr))
+     {
+          int residualCapacityOfPath = GetResidualCapacityOfPath(residualGraph, parentArr);
 
-        // Augmenting flow along the path from s to t - updating flow mat and residual graph
-        UpdateResidualGraphAndFlow(parentArr, residualCapacityOfPath, residualGraph);
-        numOfItr++;
-    }
+          // Augmenting flow along the path from s to t - updating flow mat and residual graph
+          UpdateResidualGraphAndFlow(parentArr, residualCapacityOfPath, residualGraph);
+          numOfItr++;
+     }
 
-    PrintFulkersonUsingDijkstraOutput(visitedArr, numOfItr);
-    delete[] parentArr;
-    delete[] visitedArr;
-    delete[] residualCapacityArr;
+     PrintFulkersonUsingDijkstraOutput(visitedArr, numOfItr);
+     delete[] parentArr;
+     delete[] visitedArr;
+     delete[] residualCapacityArr;
 
 }
 
 void FlowNetworkGraph::PrintFulkersonUsingDijkstraOutput(bool* visitedArr, int numOfItr)
 {
-    cout << "Dijkstra Method:" << endl;
-    cout << "Max flow = " << m_MaxFlow << endl;
-    PrintMinCutUsingDijkstra(visitedArr);
-    cout << "Number of iterations = " << numOfItr << endl;
+     cout << "Dijkstra Method:" << endl;
+     cout << "Max flow = " << m_MaxFlow << endl;
+     PrintMinCutUsingDijkstra(visitedArr);
+     cout << "Number of iterations = " << numOfItr << endl;
 }
 void FlowNetworkGraph::MakeEmptyFlow()
 {
@@ -82,22 +82,22 @@ void FlowNetworkGraph::FordFulkersonUsingBfs()
           UpdateResidualGraphAndFlow(parentArr, residualCapacityOfPath, residualGraph);
           numOfItr++;
      }
-     
+
      PrintFulkersonUsingBfsOutput(visitedArr, numOfItr);
      delete[] visitedArr;
      delete[] parentArr;
 }
 
-void FlowNetworkGraph::PrintFulkersonUsingBfsOutput(bool* visitedArr,int numOfItr)
+void FlowNetworkGraph::PrintFulkersonUsingBfsOutput(bool* visitedArr, int numOfItr)
 {
-    cout << "BFS Method:" << endl;
-    cout << "Max flow = " << m_MaxFlow << endl;
-    PrintMinCut(visitedArr);
-    cout << "Number of iterations = " << numOfItr << endl;
+     cout << "BFS Method:" << endl;
+     cout << "Max flow = " << m_MaxFlow << endl;
+     PrintMinCut(visitedArr);
+     cout << "Number of iterations = " << numOfItr << endl;
 }
 void FlowNetworkGraph::PrintMinCutUsingDijkstra(bool *visitedArr)
 {
-    PrintMinCut(visitedArr);
+     PrintMinCut(visitedArr);
 }
 void FlowNetworkGraph::PrintMinCut(bool* visitedArr)
 {
@@ -109,17 +109,17 @@ void FlowNetworkGraph::PrintMinCut(bool* visitedArr)
 
 void FlowNetworkGraph::PrintVertexesByBoolean(bool* visitedArr, string vertexNameStr, bool areVertexesAccesibleFromS)
 {
-    cout << vertexNameStr << " = ";
+     cout << vertexNameStr << " = ";
 
-    for (int i = 1; i <= m_NumOfVertexes; i++)
-    {
-        if (visitedArr[i] == areVertexesAccesibleFromS)
-        {
-            cout << i << ",";
-        }
-    }
+     for (int i = 1; i <= m_NumOfVertexes; i++)
+     {
+          if (visitedArr[i] == areVertexesAccesibleFromS)
+          {
+               cout << i << ",";
+          }
+     }
 
-    cout << "\b.";
+     cout << "\b.";
 }
 
 void FlowNetworkGraph::UpdateResidualGraphAndFlow(int* parentArrPath, int residualCapacityOfPath, WeightedDirectedGraph& residualGraph)
@@ -135,7 +135,7 @@ void FlowNetworkGraph::UpdateResidualGraphAndFlow(int* parentArrPath, int residu
           //AddFlow(v, currentParent, -m_CurrentFlowMatrix[currentParent][v]);
 
           AddFlow(v, currentParent, -residualCapacityOfPath);
-          
+
           // Updating residual graph for each edge along the path
           residualGraph.UpdateCapacity(currentParent, v, GetResidualFlow(currentParent, v));
 
@@ -147,7 +147,7 @@ void FlowNetworkGraph::UpdateResidualGraphAndFlow(int* parentArrPath, int residu
      m_MaxFlow += residualCapacityOfPath;
 }
 
-int FlowNetworkGraph::GetResidualCapacityOfPath(const WeightedDirectedGraph& residualGraph , int* parentArrPath)
+int FlowNetworkGraph::GetResidualCapacityOfPath(const WeightedDirectedGraph& residualGraph, int* parentArrPath)
 {
      // Design by contract- at this point we know there's a path from s to t
      // Finding the minimal residual capacity of all edges in the path from s to t
