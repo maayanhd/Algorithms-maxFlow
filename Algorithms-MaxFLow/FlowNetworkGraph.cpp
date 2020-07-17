@@ -21,6 +21,7 @@ FlowNetworkGraph:: ~FlowNetworkGraph()
 
      delete[] m_CurrentFlowMatrix;
 }
+
 void FlowNetworkGraph::FordFulkeronsUsingGreedyMethod() {
      // Creating Residual Graph 
      WeightedDirectedGraph residualGraph((WeightedDirectedGraph)(*this));
@@ -54,6 +55,7 @@ void FlowNetworkGraph::PrintFordFulkersonOutput(string methodNameStr, bool* visi
      PrintMinCut(visitedArr);
      cout << "Number of iterations = " << numOfItr << endl;
 }
+
 void FlowNetworkGraph::MakeEmptyFlow()
 {
      m_CurrentFlowMatrix = new int*[m_NumOfVertexes + 1];

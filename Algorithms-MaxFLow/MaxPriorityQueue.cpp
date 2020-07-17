@@ -74,12 +74,7 @@ MaxPriorityQueue::MaxPriorityQueue(int* heapArr,bool* visitedArr, int heapSize)
 		m_MaxHeap[i].m_Key = heapArr[i + 1];
 		m_IdxArr[i + 1] = i;
 	}
-    BuildHeap();
-}
-
-void MaxPriorityQueue::MarkVertexAsVisited(int v)
-{
-	m_VisitedArr[v] = true;
+    Build();
 }
 
 bool MaxPriorityQueue::IsHigherPriority(int node1, int node2)
@@ -107,7 +102,8 @@ bool MaxPriorityQueue::IsHigherPriority(int node1, int node2)
 
 	return res;
 }
-void MaxPriorityQueue::BuildHeap()
+
+void MaxPriorityQueue::Build()
 {
 	for (int i = (m_HeapSize / 2) - 1; i >= 0; --i)
 		FixHeap(i);

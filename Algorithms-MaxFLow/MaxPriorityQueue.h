@@ -10,7 +10,6 @@ using namespace std;
 class MaxPriorityQueue
 {
      private:
-
 	     Pair* m_MaxHeap;
 		 int* m_IdxArr; // Array that stores vertexes placements in the heap
 		 bool* m_VisitedArr;
@@ -22,14 +21,14 @@ class MaxPriorityQueue
 	     static int getRightChild(int node); // Returns the index of the right child or -1 if doesn't exist
 	     static int getParent(int node); // Returns the parent of the node or -1 in case it is a root
 	     void FixHeap(int node);
+
      public:
-		 void MarkVertexAsVisited(int v);
 		 bool IsHigherPriority(int node1, int node2);
 		 inline bool IsEmpty() const { return m_HeapSize == 0; };
 		 const int UNDEFINED = -1;
 		 int GetVertexIdxInHeap(int v);
 		 void IncreaseKey(int place, int newKey);
-	     void BuildHeap();
+	     void Build();
 		 MaxPriorityQueue(int* heapArr, bool* visitedArr, int heapSize);
 	     ~MaxPriorityQueue();
 	     void Swap(int node1, int node2);
