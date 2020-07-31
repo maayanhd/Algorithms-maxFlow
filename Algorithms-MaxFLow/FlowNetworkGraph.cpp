@@ -92,7 +92,7 @@ void FlowNetworkGraph::FordFulkersonUsingBfs()
      }
 
      PrintFordFulkersonOutput("BFS",visitedArr, numOfItr);
-      delete[] visitedArr;
+     delete[] visitedArr;
      delete[] parentArr;
 }
 

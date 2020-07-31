@@ -1,6 +1,6 @@
 #include "Queue.h"
 
-void Queue::MakeEmpty()
+void Queue::ClearQueue()
 {
 	while (this->IsEmpty() == false)
 	{
@@ -9,10 +9,15 @@ void Queue::MakeEmpty()
 	delete m_Front;
 }
 
-Queue::Queue()
+void Queue::MakeEmpty()
 {
 	m_Front = new Node();
 	m_Rear = m_Front;
+}
+
+Queue::Queue()
+{
+	MakeEmpty();
 }
 
 bool Queue::IsEmpty() 
@@ -22,7 +27,7 @@ bool Queue::IsEmpty()
 
 Queue::~Queue()
 {
-	MakeEmpty();
+	ClearQueue();
 }
 
 int Queue:: Dequeue() 

@@ -22,6 +22,7 @@ public:
 	int Dequeue();
 	void Enqueue(int dataToInsert);
 	int Front();
+	void ClearQueue();
 };
 
 #endif

@@ -168,7 +168,7 @@ bool WeightedDirectedGraph::IsThereAPathUsingBFS(int s, int t, int* parentArr, b
                int currentNeigbor = currentNodeVertex->m_Data;
 
                // Under the assumption the object called the method is residual graph
-               if (visitedArr[currentNeigbor] == false && this->m_AdjacentMatrix[u][currentNeigbor] > 0)
+               if (visitedArr[currentNeigbor] == false)
                {
                     parentArr[currentNeigbor] = u;
                     visitedArr[currentNeigbor] = true;
@@ -206,7 +206,7 @@ LinkedList* WeightedDirectedGraph::GetAdjList(int u)
 
      for (int j = 1; j <= m_NumOfVertexes; j++)
      {
-          if (m_AdjacentMatrix[u][j] != 0)
+          if (m_AdjacentMatrix[u][j] > 0)
           {
                adjList->InsertToEnd(j);
           }
