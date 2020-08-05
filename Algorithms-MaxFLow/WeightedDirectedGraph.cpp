@@ -5,7 +5,12 @@
 
 WeightedDirectedGraph::WeightedDirectedGraph(int n) : m_NumOfVertexes(n)
 {
-     MakeEmptyGraph(n);
+    if (n < 0)
+    {
+        FileInputHandling::NotifyInputError();
+    }
+
+    MakeEmptyGraph(n);
 }
 
 WeightedDirectedGraph::WeightedDirectedGraph(const WeightedDirectedGraph & other) : m_NumOfVertexes(other.GetNumOfVertexes())
@@ -138,7 +143,7 @@ bool WeightedDirectedGraph::IsVertexInRange(int v) const
 
 bool WeightedDirectedGraph::isCapacityValid(int capacity)
 {
-     return capacity >= 0;
+     return capacity > 0;
 }
 
 bool WeightedDirectedGraph::isEdgeALoop(int u, int v)
