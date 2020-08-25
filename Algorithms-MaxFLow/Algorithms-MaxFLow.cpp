@@ -4,11 +4,9 @@
 // Now copy the Command Arguments the name of the text file with its suffix (nameFile.txt) 
 // press ctrl + F5 as usual to execute the program as usual
 // In addition- the 2 versions of FordFulkerson are printing their output independently and operating on the same graph
-#define _CRTDBG_MAP_ALLOC
 
 #include "FileInputHandling.h"
 #include <stdlib.h>
-#include <crtdbg.h>
 
 int main(int argc, char* argv[])
 {
@@ -35,16 +33,6 @@ int main(int argc, char* argv[])
             inFile2.close();
         }
     }
-
-    if (_CrtDumpMemoryLeaks())
-    {
-        cout << "Memory leak" << endl;
-    }
-    else
-    {
-        cout << "No leak" << endl;
-    }
-
     return 0;
 }
 

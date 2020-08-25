@@ -86,6 +86,7 @@ bool MaxPriorityQueue::IsHigherPriority(int node1, int node2)
 
 	if (m_VisitedArr[vertex1] == false && m_VisitedArr[vertex2] == false)
 	{
+		res = false;
 	}
 	else if (m_VisitedArr[vertex1] == false)
 	{
